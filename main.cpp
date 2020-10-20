@@ -16,6 +16,23 @@
 
 #include "mapa.hpp"
 
+
+bool casos_int(int& valor)   // Cuando haces una entrada revisa la entrada
+{
+    cin >> valor;
+    bool casos = cin.good(); // Devuelve 0 si la secuencia no existe 
+    if (!casos)
+    {
+        system("clear");
+
+        cin.clear();    // Limpiamos
+        cin.ignore();   // Eliminamos el contenido
+        cout << endl << "\E[31mLa respuesta no ha sido un numero\E[39m"<<endl;
+    }
+
+    return casos;
+}
+
 int main(void)
 {
     
@@ -24,13 +41,22 @@ int main(void)
 //    system("clear");
     cout << endl << "\e[1m\e[36mDIMENSIONES DEL TABLERO.\e[1m\e[36m" << endl;       // cian negrita    
 
-    cout<<endl<<"\E[33m- Introduzca el número de filas de la tabla: \E[33m";        // filas -> naranja
-    cin >> filas;
-
-    cout<<endl<<"\E[33m- Introduzca el número de columnas de la tabla: \E[33m";      // columnas -> naranja
-    cin >> columnas;
-
-    cout << "Número de filas: " << filas << ", número de columnas: " << columnas << endl;
+    while (true)
+    {
+        cout << endl << "\E[33m- Introduzca el número de filas de la tabla: \E[33m";        // filas -> naranja
+        //cin >> filas;
+        if(casos_int(filas)) break; // crear una condicion para casos falsos
+        
+    }
+   
+    while (true)
+    {
+        cout << endl << "\E[33m- Introduzca el número de columnas de la tabla: \E[33m";      // columnas -> naranja
+        //cin >> columnas;
+        if(casos_int(columnas)) break;
+    }
+    
+    Mapa_t mapa(filas, columnas);
 
     // system("clear");
 	// cout<<endl<<"\E[45mPOSICIÓN INICIAL DEL VEHÍCULO.\E[45m"<< endl;

@@ -18,6 +18,8 @@
 - "€" simboliza el destino.
 
 
+AL FINAL EL SIMBOLO PARA EL TABLERO ES UN PUNTO NORMAL '.' PORQUE EL OTRO NO LO RECONOCE
+COMO CARACTER ÚNICO, SINO COMO VARIOS CARACTERES Y DA POR CULO.
 
 Qué hay que hacer:
 1. Hacer un menú que nos permita:

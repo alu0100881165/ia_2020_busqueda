@@ -16,6 +16,8 @@
 
 #include "mapa.hpp"
 
+#include <string>
+
 
 bool casos_int(int& valor)   // Cuando haces una entrada revisa la entrada
 {
@@ -27,36 +29,60 @@ bool casos_int(int& valor)   // Cuando haces una entrada revisa la entrada
 
         cin.clear();    // Limpiamos
         cin.ignore();   // Eliminamos el contenido
-        cout << endl << "\E[31mLa respuesta no ha sido un numero\E[39m"<<endl;
+        cout << endl << "\E[31mLa respuesta no ha sido un numero\E[39m" << endl;
     }
 
-    return casos;
+    return !casos;
 }
 
 int main(void)
 {
-    
+    bool opcion;
     int filas, columnas;
+    fstream ficheroEntrada;
+    string nombreFichero;
+    Mapa_t mapa;
     
 //    system("clear");
-    cout << endl << "\e[1m\e[36mDIMENSIONES DEL TABLERO.\e[1m\e[36m" << endl;       // cian negrita    
+    cout << "\e[1m\e[36m¿Desea leer desde fichero o no? (1 si, 0 no): \e[1m\e[36m";
+    cin >> opcion;
 
-    while (true)
+    if(opcion)
     {
-        cout << endl << "\E[33m- Introduzca el número de filas de la tabla: \E[33m";        // filas -> naranja
-        //cin >> filas;
-        if(casos_int(filas)) break; // crear una condicion para casos falsos
-        
+        cout << endl << "\E[33m- Introduzca el nombre del fichero: \E[33m";        // filas -> naranja 
+        cin >> nombreFichero;
+
+        ficheroEntrada.open(nombreFichero.c_str(), fstream::in);
+        if(ficheroEntrada.is_open())
+        {
+            ficheroEntrada >> filas >> columnas;
+
+            mapa.setMapa(filas, columnas, ficheroEntrada);
+        }
+        else
+        {
+            cout << endl << "\E[31mEl fichero no existe o no tiene permisos\E[39m" << endl;
+            return 1;
+        }
     }
-   
-    while (true)
-    {
-        cout << endl << "\E[33m- Introduzca el número de columnas de la tabla: \E[33m";      // columnas -> naranja
-        //cin >> columnas;
-        if(casos_int(columnas)) break;
+    else
+    {      
+        cout << endl << "\e[1m\e[36mDIMENSIONES DEL TABLERO.\e[1m\e[36m" << endl;       // cian negrita    
+
+        do
+        {
+            cout << endl << "\E[33m- Introduzca el número de filas de la tabla: \E[33m";        // filas -> naranja
+        } 
+        while (casos_int(filas));
+
+        do
+        {
+            cout << endl << "\E[33m- Introduzca el número de columnas de la tabla: \E[33m";      // columnas -> naranja
+        } 
+        while (casos_int(columnas));
     }
-    
-    Mapa_t mapa(filas, columnas);
+
+    mapa.write(cout);
 
     // system("clear");
 	// cout<<endl<<"\E[45mPOSICIÓN INICIAL DEL VEHÍCULO.\E[45m"<< endl;

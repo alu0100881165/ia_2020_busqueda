@@ -1,6 +1,3 @@
-- Controlar que n_ y m_ valgan > 0.
-
-
 #####################################       ############
 #······€····························#       #···#····#€#
 #···································#       #···#·##···#
@@ -19,3 +16,15 @@
 - "#" simboliza las paredes y obstáculos.
 - "&" simboliza el coche.
 - "€" simboliza el destino.
+
+
+
+Qué hay que hacer:
+1. Hacer un menú que nos permita:
+    1.1 Cargar el mapa desde un fichero (tamaño y obstaculos).
+    1.2 Introducir las dimensiones de manera manual.
+        1.2.1 Crear el mapa entero manualmente.
+        1.2.2 Crear el mapa con esas dimensiones de manera aleatoria.
+            1.2.2.1 Introducir un % de obstáculos que se generarán aleatoriamente.
+
+2. Arreglar el método rellenarMovimientos. No asigna correctamente los movimientos disponibles en cada celda.

@@ -1,7 +1,9 @@
 #pragma once
 
+#include "celda.hpp"
+
 #include <cstdio>
-#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -10,9 +12,9 @@ class Mapa_t
     private:
         int n_;        // Filas
         int m_;        // Columnas
-        char* mapa_;  // Matriz
+        Celda_t* mapa_;  // Matriz
 
-        void destroyMap(void);
+        void destroyMapa(void);
 
     public:
         
@@ -21,12 +23,20 @@ class Mapa_t
         
         ~Mapa_t(void);                // Destructor
         
-        int get_m(void);              // Getter columnas
-        int get_n(void);              // Getter filas
-        char* get_mapa(void);         // Getter mapa
+        int getM(void);              // Getter columnas
+        int getN(void);              // Getter filas
+        Celda_t* getMapa(void);         // Getter mapa
+        int getMapaPos(int n, int m);
 
-        void set_m(int m);            // Setter columnas
-        void set_n(int n);            // Setter filas
-        void set_mapa(int n, int m);  // Setter mapa
+        void setM(int m);            // Setter columnas
+        void setN(int n);            // Setter filas
+        void setMapa(int n, int m);  // Setter mapa
+        fstream& setMapa(int n, int m, fstream& fichero);
+
+        void rellenarMapa(void);
+        fstream& rellenarObstaculos(fstream& fichero);
+        void rellenarMovimientos(int i, int j);
+
+        ostream& write(ostream& os);
 };
 

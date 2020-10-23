@@ -41,7 +41,8 @@ Celda_t* Mapa_t::getMapa(void)  // Devuelve el mapa
 
 int Mapa_t::getMapaPos(int i, int j)    // Como el mapa es un array de una dimensión, sirve para convertir los índices de una matriz
 {                                       // para acceder en el array de una dimensión. Ejemplo: en vez de mapa_[4][4], tenemos mapa_[4 + 4 * n_]
-    return (i + j * getN());
+    //cout << "Sale: " << (i+j*getN()) << endl;
+    return i * getN() + j;
 }
 
 void Mapa_t::setM(int m)    // Modifica el valor de las columnas
@@ -58,7 +59,6 @@ void Mapa_t::setMapa(int n, int m)  // Cambia el tamaño del mapa
 {
     mapa_ = new Celda_t[n * m];
     rellenarMapa();     // Y genera el mapa vacío
-
 }
 
 fstream& Mapa_t::setMapa(int n, int m, fstream& fichero)    // Crea el mapa desde un fichero que se pasa por referencia
@@ -66,7 +66,7 @@ fstream& Mapa_t::setMapa(int n, int m, fstream& fichero)    // Crea el mapa desd
     setN(n);
     setM(m);
     setMapa(n, m);
-    rellenarMapa();
+    rellenarCoche(fichero);
     rellenarObstaculos(fichero);
 
     return fichero;
@@ -90,6 +90,21 @@ void Mapa_t::rellenarMapa(void)     // Rellena el mapa vacío
     }
 }
 
+fstream& Mapa_t::rellenarCoche(fstream& fichero)
+{
+    pair<int, int> aux;
+
+    fichero >> aux.first >> aux.second;
+
+    mapa_[getMapaPos(aux.first, aux.second)].setValor('&');
+
+    fichero >> aux.first >> aux.second;
+
+    mapa_[getMapaPos(aux.first, aux.second)].setValor('=');
+
+    return fichero;
+}
+
 fstream& Mapa_t::rellenarObstaculos(fstream& fichero)   // Rellena al mapa con los obstáculos
 {
     pair<int, int> aux; // Son dos enteros juntos, por ejemplo <1, 1>
@@ -104,13 +119,10 @@ fstream& Mapa_t::rellenarObstaculos(fstream& fichero)   // Rellena al mapa con l
     {
         for (int j = 1; j < (getM() - 1); j++)
         {
-            rellenarMovimientos(i, j);      // Se rellenan los movimientos posibles para cada celda
-            /*
-            cout << "La celda " << i << ',' << j << ": ";
-            for(int k = 0; k < 4; k++)
-                cout << mapa_[getMapaPos(i, j)].getMovimiento(k) << ' ';
-            cout << endl;
-            */
+            if(mapa_[getMapaPos(i, j)].getValor() != '$')
+            {
+                rellenarMovimientos(i, j);      // Se rellenan los movimientos posibles para cada celda
+            }
         }
     }
     
@@ -121,29 +133,25 @@ void Mapa_t::rellenarMovimientos(int i, int j)      // Comprueba los 4 posibles 
 {
     vector<int> aux = {0, 0, 0, 0};
 
-    if(mapa_[getMapaPos(i, j--)].getValor() == '$' || mapa_[getMapaPos(i, j--)].getValor() == '#')  // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un
-    {                                                                                               // obstáculo ni un borde
-        //cout << "Izquierda:  " << mapa_[getMapaPos(i, j--)].getValor() << endl;
-        aux[0] = 1;                                                                                 // Si es un borde u obstáculo el movimiento se pone a 1
-    }
+   if(mapa_[getMapaPos(i, (j - 1))].getValor() == '#' || mapa_[getMapaPos(i, (j - 1))].getValor() == '$')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+   {
+       aux[0] = 1;
+   }
 
-    if(mapa_[getMapaPos(i--, j)].getValor() == '$' || mapa_[getMapaPos(i--, j)].getValor() == '#')  // Comprueba que el valor a la arriba de la casilla (i,j) no sea ni un
-    {                                                                                               // obstáculo ni un borde
-        //cout << "arriba: " << mapa_[getMapaPos(i--, j)].getValor() << endl;
-        aux[1] = 1;                                                                                 // Si es un borde u obstáculo el movimiento se pone a 1
-    }
+   if(mapa_[getMapaPos((i - 1), j)].getValor() == '#' || mapa_[getMapaPos((i - 1), j)].getValor() == '$')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+   {
+       aux[1] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
+   }
 
-    if(mapa_[getMapaPos(i, j++)].getValor() == '$' || mapa_[getMapaPos(i, j++)].getValor() == '#')  // Comprueba que el valor a la derecha de la casilla (i,j) no sea ni un
-    {                                                                                               // obstáculo ni un borde
-        //cout << "derecha: " << mapa_[getMapaPos(i, j++)].getValor() << endl;
-        aux[2] = 1;                                                                                 // Si es un borde u obstáculo el movimiento se pone a 1
-    }
+   if(mapa_[getMapaPos(i, (j + 1))].getValor() == '#' || mapa_[getMapaPos(i, (j + 1))].getValor() == '$')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+   {
+       aux[2] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
+   }
 
-    if(mapa_[getMapaPos(i++, j)].getValor() == '$' || mapa_[getMapaPos(i++, j)].getValor() == '#')  // Comprueba que el valor a la abajo de la casilla (i,j) no sea ni un
-    {                                                                                               // obstáculo ni un borde
-        //cout << "abajo: " << mapa_[getMapaPos(i++, j)].getValor() << endl;
-        aux[3] = 1;                                                                                 // Si es un borde u obstáculo el movimiento se pone a 1
-    }
+   if(mapa_[getMapaPos((i + 1), j)].getValor() == '#' || mapa_[getMapaPos((i + 1), j)].getValor() == '$')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+   {
+       aux[3] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
+   }
 
     mapa_[getMapaPos(i, j)].setMovimientos(aux);  // Se pasa el vector a la celda para que actualice los movimientos posibles
 }

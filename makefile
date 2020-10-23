@@ -1,10 +1,10 @@
 CC=g++
-CXXFLAGS=-g
+CXXFLAGS=-g -std=c++14
 
 OBJS = main.o mapa.o celda.o
 
 all: ${OBJS}
-	$(CC) $(CXXFLAGS) -o CocheAutonomo ${OBJS} -std=c++11
+	$(CC) $(CXXFLAGS) -o CocheAutonomo ${OBJS}
 
 clean: 
 	rm -rf *.o CocheAutonomo

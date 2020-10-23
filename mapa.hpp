@@ -36,6 +36,7 @@ class Mapa_t
         void rellenarMapa(void);        // Recorre el mapa, y lo rellena poniendo en los bordes el símbolo '#', y en el interior '.'
                                         // Además llama al mñetodo setMovimientos cada vez que se crea un borde, para dejar claro que no
                                         // se puede desplazar desde esa posición (que además es inalcanzable) a otra.
+        fstream& rellenarCoche(fstream& fichero);
         fstream& rellenarObstaculos(fstream& fichero);      // Lee desde el fichero que se pasa la posición de los obstáculos y los
                                                             // coloca en el mapa. Además llama a rellenar movimientos (que no itera en los
                                                             // bordes del mapa), que se encarga de indicar qué movimientos se pueden hacer
@@ -48,4 +49,3 @@ class Mapa_t
         ostream& write(ostream& os);        // Método que pinta por pantalla el mapa. Pasa por referencia un ostream, esto no es necesario
                                             // pero queda bien, y llama al método write de la celda que hace lo mismo.
 };
-

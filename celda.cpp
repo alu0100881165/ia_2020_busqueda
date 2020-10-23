@@ -42,7 +42,7 @@ void Celda_t::setMovimientos(vector<int> movimientos)   // Set del vector de mov
 
 ostream& Celda_t::write(ostream& os)    // Método para imprimir por pantalla la celda
 {
-    cout << valor_;
+    os << valor_;
 
     return os;
 }

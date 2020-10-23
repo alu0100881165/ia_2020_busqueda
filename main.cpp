@@ -80,6 +80,35 @@ int main(void)
             cout << endl << "\E[33m- Introduzca el número de columnas de la tabla: \E[33m";      // columnas -> naranja
         } 
         while (casos_int(columnas));
+
+        mapa.setN(filas);
+        mapa.setM(columnas);
+        mapa.setMapa(filas, columnas);
+
+        bool opcion2;
+        pair<int, int> dummy;
+
+        cout << endl << "\EDesea introducir manualmente los obstáculos o generarlos aleatoriamente (1 si, 0 no): \E[33m";      // columnas -> naranja
+        cin >> opcion2;
+
+        if(!opcion2)
+        {
+            do
+            {
+                system("clear");
+                cout << endl << "\E[33m- (Introduzca 0 0 para salir) \E[33m";      // columnas -> naranja
+                cout << endl << "\E[33m- Introduzca la posición i de un obstáculo: \E[33m";      // columnas -> naranja
+                cin >> dummy.first;
+                cout << endl << "\E[33m- Introduzca la posición j de un obstáculo: \E[33m";      // columnas -> naranja
+                cin >> dummy.second;
+
+            } while ((dummy.first != 0) && (dummy.second != 0));
+        }
+        else
+        {
+            
+        }
+        
     }
 
     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.

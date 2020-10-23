@@ -15,7 +15,7 @@
 - "·" simboliza las celdas libres.
 - "#" simboliza las paredes y obstáculos.
 - "&" simboliza el coche.
-- "€" simboliza el destino.
+- "=" simboliza el destino.
 
 
 AL FINAL EL SIMBOLO PARA EL TABLERO ES UN PUNTO NORMAL '.' PORQUE EL OTRO NO LO RECONOCE
@@ -28,5 +28,3 @@ Qué hay que hacer:
         1.2.1 Crear el mapa entero manualmente.
         1.2.2 Crear el mapa con esas dimensiones de manera aleatoria.
             1.2.2.1 Introducir un % de obstáculos que se generarán aleatoriamente.
-
-2. Arreglar el método rellenarMovimientos. No asigna correctamente los movimientos disponibles en cada celda.

@@ -11,7 +11,7 @@ class Celda_t {
                         // # pared
                         // $ obstáculo
                         // & coche
-                        // € destino
+                        // = destino
         vector<int> movimientos_;   //Los movimientos van en este orden: izquierda, arriba, derecha, abajo
 
         void destroyCelda(void);    // Misma idea que el destroyMap

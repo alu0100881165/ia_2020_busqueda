@@ -38,7 +38,7 @@ bool casos_int(int& valor)   // Cuando haces una entrada revisa la entrada
 int main(void)
 {
     bool opcion;
-    int filas, columnas;
+    int filas, columnas, numero_obstaculos;
     fstream ficheroEntrada; // Variable que almacena el fichero del que se lee
     string nombreFichero;   // Variable que almacena el nombre del fichero para después abrirlo
     Mapa_t mapa;            // Mapa vacío
@@ -91,11 +91,13 @@ int main(void)
         cout << endl << "\EDesea introducir manualmente los obstáculos o generarlos aleatoriamente (1 si, 0 no): \E[33m";      // columnas -> naranja
         cin >> opcion2;
 
-        if(!opcion2)
+        if(!opcion2) //  manual obstaculos
         {
             do
             {
                 system("clear");
+                cout << endl << "\E[43mDETERMINACIÓN DE OBSTÁCULOS.\E[49m"<<endl;
+
                 cout << endl << "\E[33m- (Introduzca 0 0 para salir) \E[33m";      // columnas -> naranja
                 cout << endl << "\E[33m- Introduzca la posición i de un obstáculo: \E[33m";      // columnas -> naranja
                 cin >> dummy.first;
@@ -104,11 +106,16 @@ int main(void)
 
             } while ((dummy.first != 0) && (dummy.second != 0));
         }
-        else
-        {
-            
+        else // aleatorio 
+        {   
+            cout << endl << "\E[43mDETERMINACIÓN DE OBSTÁCULOS.\E[49m"<<endl;
+            while(true)
+            {
+                cout << endl << "\E[31mIntroduza el numero de obstaculos que desee: \E[39m";
+                if(casos_int(numero_obstaculos) break;
+            }
+            mapa.SetMapa.setMovimientos(0, 0, true, numero_obstaculos);
         }
-        
     }
 
     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.

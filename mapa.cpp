@@ -129,6 +129,11 @@ fstream& Mapa_t::rellenarObstaculos(fstream& fichero)   // Rellena al mapa con l
     return fichero;
 }
 
+void Mapa_t::rellenarManual(int n, int m, char c)
+{
+    mapa_[getMapaPos(n, m)].setValor(c);
+}
+
 void Mapa_t::rellenarMovimientos(int i, int j)      // Comprueba los 4 posibles movimientos y les pone un 1 en caso de no poder realizarlos
 {
     vector<int> aux = {0, 0, 0, 0};

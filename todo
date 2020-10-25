@@ -1,5 +1,5 @@
 #####################################       ############
-#······€····························#       #···#····#€#
+#······=····························#       #···#····#=#
 #···································#       #···#·##···#
 #···································#       #···#&#····#
 #···································#       ############
@@ -18,13 +18,17 @@
 - "=" simboliza el destino.
 
 
-AL FINAL EL SIMBOLO PARA EL TABLERO ES UN PUNTO NORMAL '.' PORQUE EL OTRO NO LO RECONOCE
-COMO CARACTER ÚNICO, SINO COMO VARIOS CARACTERES Y DA POR CULO.
-
-Qué hay que hacer:
+Qué hay que hacer: HECHO
 1. Hacer un menú que nos permita:
-    1.1 Cargar el mapa desde un fichero (tamaño y obstaculos).
     1.2 Introducir las dimensiones de manera manual.
         1.2.1 Crear el mapa entero manualmente.
         1.2.2 Crear el mapa con esas dimensiones de manera aleatoria.
             1.2.2.1 Introducir un % de obstáculos que se generarán aleatoriamente.
+
+
+Parte Javi:
+
+Caso aleatorio -> Falta rellenar celdas menos superior, izquierdo, abajo, derecho , coche y destino = caca
+
+- "&" simboliza el coche.
+- "=" simboliza el destino.

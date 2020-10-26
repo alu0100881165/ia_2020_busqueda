@@ -180,30 +180,40 @@ int main(void)
             {
                 do
                 {
-                    cout << endl << "\E[31mIntroduza el porcentaje de obstaculos que desee: \E[39m";
+                    cout << endl << "\E[31mIntroduza el porcentaje de obstaculos que desee: \E[39m";    // El usuario introduce un %
                 } 
                 while(casos_int(porcentajes_obstaculos));
 
                 if(porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100)
                 {
-                    cout << endl << "\E[31mIntroduzca un porcentaje dentro del rango 0-100.\E[39m" << endl;
+                    cout << endl << "\E[31m--> Error: Introduzca un porcentaje dentro del rango 0-100.\E[39m" << endl;  // Error rango
                 }
                 
-            } while (porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100);
+            } while (porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100);  // Hasta < 0 o > 100
             
-            int tam = ((filas * columnas) * porcentajes_obstaculos) / 100; //10x10 10% tam=10
+            do
+            {
+                int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
 
-            srand(time(NULL));
+                srand(time(NULL)); // Caso random = NULL
 
-            for(int i = 0; i < tam; i++)
-            {   
-                o.first = rand() % tam; // caso random
-                o.second = rand() % tam; // caso random
+                for(int i = 0; i < tam; i++)
+                {   
+                    o.first = rand() % tam; // caso random first
+                    o.second = rand() % tam; // caso random second
 
-                mapa.rellenarManual(o.first, o.second, '#');
+                    if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d)  // superior, izquierdo, abajo, derecho / vehiculo y destino no en la posición
+                    {
+                        mapa.rellenarManual(o.first, o.second, '#');
+                    }
+                    else
+                    {
+                        cout << endl << "\E[31m--> Error de posición: Introduzca el obstáculo en una posición válida. \E[31m" << endl;
+                    }
+                }
 
-                //Falta rellenar casos errores
             }
+            while ((o.first != 0) && (o.second != 0));      
         }
     }
 

@@ -42,7 +42,22 @@ void Celda_t::setMovimientos(vector<int> movimientos)   // Set del vector de mov
 
 ostream& Celda_t::write(ostream& os)    // Método para imprimir por pantalla la celda
 {
-    os << valor_;
+    if(valor_ == '&')   // azul
+    {
+        os << "\E[34m" << setw(2) << valor_ << "\E[34m";
+    }
+    else if(valor_ == '=')  // rojo
+    {
+        os << "\E[31m" << setw(2) << valor_ << "\E[31m";
+    }
+    else if( valor_ == '#') // verde
+    {
+        os<< "\E[32m" << setw(2) << valor_ << "\E[32m";
+    }
+    else    // blanco
+    {
+        os << "\E[97m" << setw(2) << valor_ << "\E[97m";
+    }
 
     return os;
 }

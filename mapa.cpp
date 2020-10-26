@@ -112,14 +112,14 @@ fstream& Mapa_t::rellenarObstaculos(fstream& fichero)   // Rellena al mapa con l
     {
         fichero >> aux.first >> aux.second;     // Lee las coordenadas como un punto en una gráfica, es decir (1,1)
 
-        mapa_[getMapaPos(aux.first, aux.second)].setValor('$');     // Asigna el símbolo a los obstáculos
+        mapa_[getMapaPos(aux.first, aux.second)].setValor('#');     // Asigna el símbolo a los obstáculos
     }
 
     for(int i = 1; i < (getN() - 1); i++)       // Los dos for recorren el mapa evitando los bordes
     {
         for (int j = 1; j < (getM() - 1); j++)
         {
-            if(mapa_[getMapaPos(i, j)].getValor() != '$')
+            if(mapa_[getMapaPos(i, j)].getValor() != '#')
             {
                 rellenarMovimientos(i, j);      // Se rellenan los movimientos posibles para cada celda
             }
@@ -138,22 +138,22 @@ void Mapa_t::rellenarMovimientos(int i, int j)      // Comprueba los 4 posibles 
 {
     vector<int> aux = {0, 0, 0, 0};
 
-   if(mapa_[getMapaPos(i, (j - 1))].getValor() == '#' || mapa_[getMapaPos(i, (j - 1))].getValor() == '$')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+   if(mapa_[getMapaPos(i, (j - 1))].getValor() == '#')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
    {
        aux[0] = 1;
    }
 
-   if(mapa_[getMapaPos((i - 1), j)].getValor() == '#' || mapa_[getMapaPos((i - 1), j)].getValor() == '$')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+   if(mapa_[getMapaPos((i - 1), j)].getValor() == '#')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
    {
        aux[1] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
    }
 
-   if(mapa_[getMapaPos(i, (j + 1))].getValor() == '#' || mapa_[getMapaPos(i, (j + 1))].getValor() == '$')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+   if(mapa_[getMapaPos(i, (j + 1))].getValor() == '#')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
    {
        aux[2] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
    }
 
-   if(mapa_[getMapaPos((i + 1), j)].getValor() == '#' || mapa_[getMapaPos((i + 1), j)].getValor() == '$')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+   if(mapa_[getMapaPos((i + 1), j)].getValor() == '#')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
    {
        aux[3] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
    }

@@ -36,6 +36,57 @@ bool casos_int(int& valor)   // Cuando haces una entrada revisa la entrada
     return !casos;
 }
 
+pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
+{
+    pair<int, int> v;
+    cout << endl << "\E[33mDETERMINACIÓN DEL VEHÍCULO.\E[33m"<<endl;
+        do
+        {
+            cout << endl << "\E[96m- Introduzca la posición i del vehículo: \E[96m";      // filas -> naranja
+            cin >> v.first;
+            cout << endl << "\E[96m- Introduzca la posición j del vehículo: \E[96m";      // columnas -> naranja
+            cin >> v.second;
+
+            if(v.first > 0 && v.second > 0 && v.first < (filas - 1) && v.second < (columnas - 1))           // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
+            {                                                                                               // Arriba, izquierda, abajo y derecha.
+                mapa.rellenarManual(v.first, v.second, '&');                                                // Guarda en la posición pair 'v' el vehículo, '&' 
+            }
+            else
+            {
+                cout << endl << "\E[31m--> Error de posición: Introduzca el vehículo en una posición viable (no en los bordes). \E[31m" << endl;
+            }
+        } 
+        while (v.first <= 0 || v.second <= 0 || v.first >= (filas - 1) || v.second >= (columnas - 1));      // if(-1)
+    
+    return v;
+}
+
+pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int> v)
+{
+    pair<int, int> d;
+
+    cout << endl << "\E[33mDETERMINACIÓN DEL DESTINO.\E[33m" << endl;
+        do
+        {
+            cout << endl << "\E[96m- Introduzca la posición i del destino: \E[96m";      // filas -> naranja
+            cin >> d.first;
+            cout << endl << "\E[96m- Introduzca la posición j del destino: \E[96m";      // columnas -> naranja
+            cin >> d.second;
+
+            if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && d != v)         // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
+            {                                                                                                       // Arriba, Izquierda, abajo y derecha, además de que no esté en la posición del vehículo.
+                mapa.rellenarManual(d.first, d.second, '=');                                                        // Guarda en la posición pair 'd' el destino, '='.
+            }
+            else
+            {
+                cout << endl << "\E[31m--> Error de posición: Introduzca el destino en una posición válida. \E[31m" << endl;
+            }
+        } 
+        while (d.first <= 0 || d.second <= 0 || d.first >= (filas - 1) || d.second >= (columnas - 1) || d == v);    // if(-1)
+
+    return d;
+}
+
 int main(void)
 {
     bool opcion;
@@ -44,8 +95,8 @@ int main(void)
     string nombreFichero;   // Variable que almacena el nombre del fichero para después abrirlo
     Mapa_t mapa;            // Mapa vacío
     
-//    system("clear");
-    cout << "\n\e[1m\e[36m¿Desea leer desde fichero? (0 NO, 1 SI): \e[1m\e[36m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
+    cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL PRÁCTICA DE BÚSQUEDA.\n";
+    cout << "\n\e[1m\E[96m¿Desea leer desde fichero? (0 NO, 1 SI): \e[1m\E[96m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
     cin >> opcion;
     
     if(opcion)
@@ -72,17 +123,17 @@ int main(void)
     
     else    // Opción manual, falta por hacerse
     {      
-        cout << endl << "\e[1m\e[36mDIMENSIONES DEL TABLERO.\e[1m\e[36m" << endl;       // cian negrita    
+        cout << endl << "\E[33mDIMENSIONES DEL TABLERO.\E[33m" << endl;       // cian negrita    
 
         do
         {
-            cout << endl << "\E[33m- Introduzca el número de filas de la tabla: \E[33m";        // filas -> naranja
+            cout << endl << "\E[96m- Introduzca el número de filas de la tabla: \E[96m";        // filas -> naranja
         } 
         while (casos_int(filas));
 
         do
         {
-            cout << endl << "\E[33m- Introduzca el número de columnas de la tabla: \E[33m";      // columnas -> naranja
+            cout << endl << "\E[96m- Introduzca el número de columnas de la tabla: \E[96m";      // columnas -> naranja
         } 
         while (casos_int(columnas));
 
@@ -93,61 +144,25 @@ int main(void)
         bool opcion2;
         pair<int, int> o, v, d;     // obstáculo, vehículo y destino
 
-        cout << endl << "Desea introducir manualmente los obstáculos o generarlos aleatoriamente (0 Manual, 1 Aleatorio): ";      // columnas -> naranja
+        cout << endl << "\E[32mDesea introducir manualmente los obstáculos o generarlos aleatoriamente (0 Manual, 1 Aleatorio): \E[96m";      // columnas -> naranja
         cin >> opcion2;
 
         if(!opcion2) //  manual obstaculos
         {   
-            cout << endl << "DETERMINACIÓN DEL VEHÍCULO."<<endl;
-            do
-            {
-                cout << endl << "\E[33m- Introduzca la posición i del vehículo: \E[33m";      // filas -> naranja
-                cin >> v.first;
-                cout << endl << "\E[33m- Introduzca la posición j del vehículo: \E[33m";      // columnas -> naranja
-                cin >> v.second;
-
-                if(v.first > 0 && v.second > 0 && v.first < (filas - 1) && v.second < (columnas - 1))           // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
-                {                                                                                               // Arriba, izquierda, abajo y derecha.
-                    mapa.rellenarManual(v.first, v.second, '&');                                                // Guarda en la posición pair 'v' el vehículo, '&' 
-                }
-                else
-                {
-                    cout << endl << "\E[31m--> Error de posición: Introduzca el vehículo en una posición viable (no en los bordes). \E[31m" << endl;
-                }
-            } 
-            while (v.first <= 0 || v.second <= 0 || v.first >= (filas - 1) || v.second >= (columnas - 1));      // if(-1)
-            
-            cout << endl << "DETERMINACIÓN DEL DESTINO." << endl;
-            do
-            {
-                cout << endl << "\E[33m- Introduzca la posición i del destino: \E[33m";      // filas -> naranja
-                cin >> d.first;
-                cout << endl << "\E[33m- Introduzca la posición j del destino: \E[33m";      // columnas -> naranja
-                cin >> d.second;
-
-                if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && d != v)         // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
-                {                                                                                                       // Arriba, Izquierda, abajo y derecha, además de que no esté en la posición del vehículo.
-                    mapa.rellenarManual(d.first, d.second, '=');                                                        // Guarda en la posición pair 'd' el destino, '='.
-                }
-
-                else 
-                {
-                    cout << endl << "\E[31m--> Error de posición: Introduzca el destino en una posición válida. \E[31m" << endl;
-                }
-            } 
-            while (d.first <= 0 || d.second <= 0 || d.first >= (filas - 1) || d.second >= (columnas - 1) || d == v);    // if(-1)
+            v = crearVehiculo(mapa, filas, columnas);
+            d = crearDestino(mapa, filas, columnas, v);
                        
 
             system("clear");
 
-            cout << endl << "DETERMINACIÓN DE OBSTÁCULOS."<<endl;
+            cout << endl << "\E[33mDETERMINACIÓN DE OBSTÁCULOS.\E[33m"<<endl;
 
             do
             {
                 cout << endl << "\E[33m- (Introduzca 0 0 para salir) \E[33m";      // columnas -> naranja
-                cout << endl << "\E[33m- Introduzca la posición i de un obstáculo: \E[33m";      // columnas -> naranja
+                cout << endl << "\E[96m- Introduzca la posición i de un obstáculo: \E[96m";      // columnas -> naranja
                 cin >> o.first;
-                cout << endl << "\E[33m- Introduzca la posición j de un obstáculo: \E[33m";      // columnas -> naranja
+                cout << endl << "\E[96m- Introduzca la posición j de un obstáculo: \E[96m";      // columnas -> naranja
                 cin >> o.second;
                                
                 if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d)   // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -166,7 +181,7 @@ int main(void)
             {
                 for (int j = 1; j < (columnas - 1); j++)
                 {
-                    if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '$')
+                    if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '#')
                     {
                         mapa.rellenarMovimientos(i, j);     
                     }
@@ -175,12 +190,15 @@ int main(void)
         }
         else // Caso aleatorios 
         {   
-            cout << endl << "DETERMINACIÓN DE OBSTÁCULOS."<<endl;
+            v = crearVehiculo(mapa, filas, columnas);
+            d = crearDestino(mapa, filas, columnas, d);
+            
+            cout << endl << "\E[33mDETERMINACIÓN DE OBSTÁCULOS.\E[33m"<<endl;
             do
             {
                 do
                 {
-                    cout << endl << "\E[31mIntroduza el porcentaje de obstaculos que desee: \E[39m";    // El usuario introduce un %
+                    cout << endl << "\E[96mIntroduza el porcentaje de obstaculos que desee: \E[96m";    // El usuario introduce un %
                 } 
                 while(casos_int(porcentajes_obstaculos));
 
@@ -191,32 +209,27 @@ int main(void)
                 
             } while (porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100);  // Hasta < 0 o > 100
             
-            do
-            {
-                int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
+            int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
 
-                srand(time(NULL)); // Caso random = NULL
+            srand(time(NULL)); // Caso random = NULL
 
-                for(int i = 0; i < tam; i++)
-                {   
+            cout << "Obstáculos aleatorios: " << endl;
+
+            for(int i = 0; i < tam; i++)
+            {   
+                do
+                {
                     o.first = rand() % tam; // caso random first
                     o.second = rand() % tam; // caso random second
-
-                    if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d)  // superior, izquierdo, abajo, derecho / vehiculo y destino no en la posición
-                    {
-                        mapa.rellenarManual(o.first, o.second, '#');
-                    }
-                    else
-                    {
-                        cout << endl << "\E[31m--> Error de posición: Introduzca el obstáculo en una posición válida. \E[31m" << endl;
-                    }
                 }
-
+                while (o.first <= 0 || o.second <= 0 || o.first >= (filas - 1) || o.second >= (columnas - 1) || o == v || o == d);
+                    
+                mapa.rellenarManual(o.first, o.second, '#');
             }
-            while ((o.first != 0) && (o.second != 0));      
         }
     }
 
+    system("clear");
     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.
 
     // system("clear");

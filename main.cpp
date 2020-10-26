@@ -26,7 +26,7 @@ bool casos_int(int& valor)   // Cuando haces una entrada revisa la entrada
     bool casos = cin.good(); // Devuelve 0 si la secuencia no existe 
     if (!casos)
     {
-        system("clear");
+        //system("clear");
 
         cin.clear();    // Limpiamos
         cin.ignore();   // Eliminamos el contenido
@@ -42,9 +42,9 @@ pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
     cout << endl << "\E[33mDETERMINACIÓN DEL VEHÍCULO.\E[33m"<<endl;
         do
         {
-            cout << endl << "\E[96m- Introduzca la posición i del vehículo: \E[96m";      // filas -> naranja
+            cout << endl << "\E[96m- Introduzca la posición i del vehículo: \E[97m";      // filas -> naranja
             cin >> v.first;
-            cout << endl << "\E[96m- Introduzca la posición j del vehículo: \E[96m";      // columnas -> naranja
+            cout << endl << "\E[96m- Introduzca la posición j del vehículo: \E[97m";      // columnas -> naranja
             cin >> v.second;
 
             if(v.first > 0 && v.second > 0 && v.first < (filas - 1) && v.second < (columnas - 1))           // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -68,9 +68,9 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
     cout << endl << "\E[33mDETERMINACIÓN DEL DESTINO.\E[33m" << endl;
         do
         {
-            cout << endl << "\E[96m- Introduzca la posición i del destino: \E[96m";      // filas -> naranja
+            cout << endl << "\E[96m- Introduzca la posición i del destino: \E[97m";      // filas -> naranja
             cin >> d.first;
-            cout << endl << "\E[96m- Introduzca la posición j del destino: \E[96m";      // columnas -> naranja
+            cout << endl << "\E[96m- Introduzca la posición j del destino: \E[97m";      // columnas -> naranja
             cin >> d.second;
 
             if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && d != v)         // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -95,8 +95,8 @@ int main(void)
     string nombreFichero;   // Variable que almacena el nombre del fichero para después abrirlo
     Mapa_t mapa;            // Mapa vacío
     
-    cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL PRÁCTICA DE BÚSQUEDA.\n";
-    cout << "\n\e[1m\E[96m¿Desea leer desde fichero? (0 NO, 1 SI): \e[1m\E[96m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
+    cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
+    cout << "\n\E[32m¿Desea leer desde fichero? \e[35m(0 NO, 1 SI)\e[35m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
     cin >> opcion;
     
     if(opcion)
@@ -115,7 +115,7 @@ int main(void)
             }
             else    // En caso de error al abrir el fichero se indica al usuario y termina la ejecución del programa
             {
-                cout << endl << "\E[31m--> Error: El fichero no existe o no tiene permisos\E[39m" << endl;
+                cout << endl << "\E[31m--> Error: El fichero no existe o no tiene permisos\E[31m" << endl;
             }
         }    
         while(ficheroEntrada.is_open() != 1);
@@ -127,13 +127,13 @@ int main(void)
 
         do
         {
-            cout << endl << "\E[96m- Introduzca el número de filas de la tabla: \E[96m";        // filas -> naranja
+            cout << endl << "\E[96m- Introduzca el número de filas de la tabla: \E[97m";        // filas -> naranja
         } 
         while (casos_int(filas));
 
         do
         {
-            cout << endl << "\E[96m- Introduzca el número de columnas de la tabla: \E[96m";      // columnas -> naranja
+            cout << endl << "\E[96m- Introduzca el número de columnas de la tabla: \E[97m";      // columnas -> naranja
         } 
         while (casos_int(columnas));
 
@@ -144,7 +144,7 @@ int main(void)
         bool opcion2;
         pair<int, int> o, v, d;     // obstáculo, vehículo y destino
 
-        cout << endl << "\E[32mDesea introducir manualmente los obstáculos o generarlos aleatoriamente (0 Manual, 1 Aleatorio): \E[96m";      // columnas -> naranja
+        cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[35m(0 Manual, 1 Aleatorio)\e[35m: \E[97m";      // columnas -> naranja
         cin >> opcion2;
 
         if(!opcion2) //  manual obstaculos
@@ -160,9 +160,9 @@ int main(void)
             do
             {
                 cout << endl << "\E[33m- (Introduzca 0 0 para salir) \E[33m";      // columnas -> naranja
-                cout << endl << "\E[96m- Introduzca la posición i de un obstáculo: \E[96m";      // columnas -> naranja
+                cout << endl << "\E[96m- Introduzca la posición i de un obstáculo: \E[97m";      // columnas -> naranja
                 cin >> o.first;
-                cout << endl << "\E[96m- Introduzca la posición j de un obstáculo: \E[96m";      // columnas -> naranja
+                cout << endl << "\E[96m- Introduzca la posición j de un obstáculo: \E[97m";      // columnas -> naranja
                 cin >> o.second;
                                
                 if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d)   // Comprueba si la posición seleccionada no está en ninguna pared, el orden:

@@ -16,3 +16,8 @@
 - "#" simboliza las paredes y obstáculos.
 - "&" simboliza el coche.
 - "=" simboliza el destino.
+
+
+FALTA:
+
+casos errores cuando el usuario pone otra cosa que no es ni 0 ni 1

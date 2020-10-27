@@ -96,15 +96,22 @@ int main(void)
     Mapa_t mapa;            // Mapa vacío
     
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
-    cout << "\n\E[32m¿Desea leer desde fichero? \e[35m(0 NO, 1 SI)\e[35m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
-    cin >> opcion;
+    do{
+
+        cout << "\n\E[32m¿Desea leer desde fichero? \e[35m(0 NO, 1 SI)\e[35m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
+        cin >> opcion;
+    }
+    while (casos_int (int(opcion)));
     
     if(opcion)
     {
         do
         { 
-            cout << endl << "\E[33m- Introduzca el nombre del fichero: \E[33m";        // filas -> naranja 
-            cin >> nombreFichero;
+            
+                cout << endl << "\E[33m- Introduzca el nombre del fichero: \E[33m";        // filas -> naranja 
+                cin >> nombreFichero;
+           
+           
 
             ficheroEntrada.open(nombreFichero.c_str(), fstream::in);    // Se abre el fichero de entrada
             if(ficheroEntrada.is_open())    // Comprobamos que el fichero se haya abierto bien

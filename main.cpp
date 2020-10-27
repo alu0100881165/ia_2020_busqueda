@@ -20,7 +20,7 @@
 #include <string>
 #include <cstdlib>
 
-bool casos_int(int& valor)   // Cuando haces una entrada revisa la entrada
+bool casosInt(int& valor)   // Cuando haces una entrada revisa la entrada
 {
     cin >> valor;
     bool casos = cin.good(); // Devuelve 0 si la secuencia no existe 
@@ -89,29 +89,26 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
 
 int main(void)
 {
-    bool opcion;
+    int opcion;
     int filas, columnas, porcentajes_obstaculos, numero_porcentajes;
     fstream ficheroEntrada; // Variable que almacena el fichero del que se lee
     string nombreFichero;   // Variable que almacena el nombre del fichero para después abrirlo
     Mapa_t mapa;            // Mapa vacío
     
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
-    do{
-
+    do
+    {
         cout << "\n\E[32m¿Desea leer desde fichero? \e[35m(0 NO, 1 SI)\e[35m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
         cin >> opcion;
     }
-    while (casos_int (int(opcion)));
+    while (opcion !=0 || opcion != 1);
     
     if(opcion)
     {
         do
         { 
-            
-                cout << endl << "\E[33m- Introduzca el nombre del fichero: \E[33m";        // filas -> naranja 
-                cin >> nombreFichero;
-           
-           
+            cout << endl << "\E[33m- Introduzca el nombre del fichero: \E[33m";        // filas -> naranja 
+            cin >> nombreFichero;
 
             ficheroEntrada.open(nombreFichero.c_str(), fstream::in);    // Se abre el fichero de entrada
             if(ficheroEntrada.is_open())    // Comprobamos que el fichero se haya abierto bien
@@ -136,13 +133,13 @@ int main(void)
         {
             cout << endl << "\E[96m- Introduzca el número de filas de la tabla: \E[97m";        // filas -> naranja
         } 
-        while (casos_int(filas));
+        while (casosInt(filas));
 
         do
         {
             cout << endl << "\E[96m- Introduzca el número de columnas de la tabla: \E[97m";      // columnas -> naranja
         } 
-        while (casos_int(columnas));
+        while (casosInt(columnas));
 
         mapa.setN(filas);
         mapa.setM(columnas);
@@ -207,7 +204,7 @@ int main(void)
                 {
                     cout << endl << "\E[96mIntroduza el porcentaje de obstaculos que desee: \E[96m";    // El usuario introduce un %
                 } 
-                while(casos_int(porcentajes_obstaculos));
+                while(casosInt(porcentajes_obstaculos));
 
                 if(porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100)
                 {

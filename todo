@@ -22,13 +22,7 @@ FALTA:
 
 Leer por ficheros 0 y 1 -> Mensaje error
 
+CONTROLAR QUE EL TAMAÑO MINIMO DEL MAPA ES 4X4 
 
-// Cosas para hacer hoy y mañana
-Crear vector movimientos.
-Crear metodos get, set. 
-Crear metodo write del coche (que imprima su posicion).
-Crear constructor de copia (que no sea vacio y acepte una posición como parámetro de entrada)
-Crear el coche en el main.
-Que coche en el main se pueda inicializar (tanto a vacío como a una posición que se pase) e imprimir su posicion por pantalla.
+Fichero.txt posicion del coche -> no devuelve nada
 
-Intentad hacer el destructor.

@@ -16,6 +16,7 @@
 */
 
 #include "mapa.hpp"
+#include "coche.hpp"
 
 #include <string>
 #include <cstdlib>
@@ -26,7 +27,7 @@ bool casosInt(int& valor)   // Cuando haces una entrada revisa la entrada
     bool casos = cin.good(); // Devuelve 0 si la secuencia no existe 
     if (!casos)
     {
-        //system("clear");
+        system("clear");
 
         cin.clear();    // Limpiamos
         cin.ignore();   // Eliminamos el contenido
@@ -44,12 +45,12 @@ pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
         {
             cout << endl << "\E[96m- Introduzca la posición i del vehículo: \E[97m";      // filas -> naranja
             cin >> v.first;
-            cout << endl << "\E[96m- Introduzca la posición j del vehículo: \E[97m";      // columnas -> naranja
+            cout << "\E[96m- Introduzca la posición j del vehículo: \E[97m";      // columnas -> naranja
             cin >> v.second;
 
             if(v.first > 0 && v.second > 0 && v.first < (filas - 1) && v.second < (columnas - 1))           // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
             {                                                                                               // Arriba, izquierda, abajo y derecha.
-                mapa.rellenarManual(v.first, v.second, '&');                                                // Guarda en la posición pair 'v' el vehículo, '&' 
+                mapa.rellenarManual(v.first, v.second, '&');                                                // Guarda en la posición pair 'v' el vehículo, '&'               
             }
             else
             {
@@ -70,7 +71,7 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
         {
             cout << endl << "\E[96m- Introduzca la posición i del destino: \E[97m";      // filas -> naranja
             cin >> d.first;
-            cout << endl << "\E[96m- Introduzca la posición j del destino: \E[97m";      // columnas -> naranja
+            cout <<  "\E[96m- Introduzca la posición j del destino: \E[97m";      // columnas -> naranja
             cin >> d.second;
 
             if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && d != v)         // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -91,23 +92,27 @@ int main(void)
 {
     int opcion;
     int filas, columnas, porcentajes_obstaculos, numero_porcentajes;
-    fstream ficheroEntrada; // Variable que almacena el fichero del que se lee
-    string nombreFichero;   // Variable que almacena el nombre del fichero para después abrirlo
-    Mapa_t mapa;            // Mapa vacío
-    
+    fstream ficheroEntrada;     // Variable que almacena el fichero del que se lee
+    string nombreFichero;       // Variable que almacena el nombre del fichero para después abrirlo
+    pair<int, int> o, v, d;     // obstáculo, vehículo y destino
+    Mapa_t mapa;                // Mapa vacío
+    Coche_t coche;              // Coche declarado a posición (0, 0)
+
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
-    do
-    {
+    //do
+    //{
         cout << "\n\E[32m¿Desea leer desde fichero? \e[35m(0 NO, 1 SI)\e[35m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
         cin >> opcion;
-    }
-    while (opcion !=0 || opcion != 1);
+        
+        system("clear");
+    //}
+    //while (opcion !=0 || opcion != 1);
     
     if(opcion)
     {
         do
         { 
-            cout << endl << "\E[33m- Introduzca el nombre del fichero: \E[33m";        // filas -> naranja 
+            cout << endl << "\E[33m- Introduzca el nombre del fichero: \E[97m";        // filas -> naranja 
             cin >> nombreFichero;
 
             ficheroEntrada.open(nombreFichero.c_str(), fstream::in);    // Se abre el fichero de entrada
@@ -131,32 +136,31 @@ int main(void)
 
         do
         {
-            cout << endl << "\E[96m- Introduzca el número de filas de la tabla: \E[97m";        // filas -> naranja
+            cout << endl << "\E[96m- Introduzca el número de filas de la tabla \e[32m(>= 4): \E[97m";        // filas -> naranja
         } 
-        while (casosInt(filas));
+        while (casosInt(filas) || filas < 4);
 
         do
         {
-            cout << endl << "\E[96m- Introduzca el número de columnas de la tabla: \E[97m";      // columnas -> naranja
+            cout << "\E[96m- Introduzca el número de columnas de la tabla \e[32m(>= 4): \E[97m";      // columnas -> naranja
         } 
-        while (casosInt(columnas));
+        while (casosInt(columnas) || columnas < 4);
 
         mapa.setN(filas);
         mapa.setM(columnas);
         mapa.setMapa(filas, columnas);
 
         bool opcion2;
-        pair<int, int> o, v, d;     // obstáculo, vehículo y destino
 
         cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[35m(0 Manual, 1 Aleatorio)\e[35m: \E[97m";      // columnas -> naranja
         cin >> opcion2;
 
+        v = crearVehiculo(mapa, filas, columnas);
+        d = crearDestino(mapa, filas, columnas, v);
+        coche.setPosicion(v);
+
         if(!opcion2) //  manual obstaculos
         {   
-            v = crearVehiculo(mapa, filas, columnas);
-            d = crearDestino(mapa, filas, columnas, v);
-                       
-
             system("clear");
 
             cout << endl << "\E[33mDETERMINACIÓN DE OBSTÁCULOS.\E[33m"<<endl;
@@ -166,7 +170,7 @@ int main(void)
                 cout << endl << "\E[33m- (Introduzca 0 0 para salir) \E[33m";      // columnas -> naranja
                 cout << endl << "\E[96m- Introduzca la posición i de un obstáculo: \E[97m";      // columnas -> naranja
                 cin >> o.first;
-                cout << endl << "\E[96m- Introduzca la posición j de un obstáculo: \E[97m";      // columnas -> naranja
+                cout  << "\E[96m- Introduzca la posición j de un obstáculo: \E[97m";      // columnas -> naranja
                 cin >> o.second;
                                
                 if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d)   // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -193,16 +197,13 @@ int main(void)
             }
         }
         else // Caso aleatorios 
-        {   
-            v = crearVehiculo(mapa, filas, columnas);
-            d = crearDestino(mapa, filas, columnas, d);
-            
+        {               
             cout << endl << "\E[33mDETERMINACIÓN DE OBSTÁCULOS.\E[33m"<<endl;
             do
             {
                 do
                 {
-                    cout << endl << "\E[96mIntroduza el porcentaje de obstaculos que desee: \E[96m";    // El usuario introduce un %
+                    cout << endl << "\E[96mIntroduza el porcentaje de obstaculos que desee: \E[97m";    // El usuario introduce un %
                 } 
                 while(casosInt(porcentajes_obstaculos));
 
@@ -213,18 +214,17 @@ int main(void)
                 
             } while (porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100);  // Hasta < 0 o > 100
             
+
             int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
 
             srand(time(NULL)); // Caso random = NULL
-
-            cout << "Obstáculos aleatorios: " << endl;
 
             for(int i = 0; i < tam; i++)
             {   
                 do
                 {
-                    o.first = rand() % tam; // caso random first
-                    o.second = rand() % tam; // caso random second
+                    o.first = rand() % filas; // caso random first
+                    o.second = rand() % filas; // caso random second
                 }
                 while (o.first <= 0 || o.second <= 0 || o.first >= (filas - 1) || o.second >= (columnas - 1) || o == v || o == d);
                     
@@ -233,12 +233,9 @@ int main(void)
         }
     }
 
-    system("clear");
+    //system("clear");
     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.
-
-    // system("clear");
-	// cout<<endl<<"\E[45mPOSICIÓN INICIAL DEL VEHÍCULO.\E[45m"<< endl;
+    coche.write(cout); // Imprimr por pantalla el coche
 
     return 0;
-
 }

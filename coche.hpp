@@ -18,14 +18,8 @@ class Coche_t
         ~Coche_t();  // Destructor
         
         pair<int, int> getPosicion(void);  // Getter posiciones
-        Coche_t* getCoche(void);            // Getter coche
-        pair<int, int> getCochePos(pair<int, int>);
-
 
         void setPosicion(pair<int, int> posicion); // Setter posiciones
-        void setCoche()
-        
-
 
         ostream& write(ostream& os);  
 };

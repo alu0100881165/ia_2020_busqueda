@@ -1,15 +1,14 @@
 #include "coche.hpp"
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 Coche_t::Coche_t(void):
-    posicion_(),
-    coche_()
+    posicion_()
 {}
 
 Coche_t::Coche_t(pair<int, int> posicion) // Inicializar valores
 {
-    setCoche(posicion);
+    setPosicion(posicion);
 }
 
 Coche_t::~Coche_t(void) // Destructor
@@ -19,35 +18,23 @@ Coche_t::~Coche_t(void) // Destructor
 
 void Coche_t::destroyCoche(void)  
 {
-    //posicion = (0, 0);
-    setCoche(posicion_);
+    pair<int, int> posicion = {0, 0};
+    setPosicion(posicion);
 }
-pair<int, int> Coche_t::getCoche(void)
+
+pair<int, int> Coche_t::getPosicion(void)
 {
     return posicion_;
 }
 
-void Coche_t::setCoche(pair<int, int> posicion)
+void Coche_t::setPosicion(pair<int, int> posicion)
 {
     posicion_ = posicion;
 }
 
-int Coche_t::GetCochePos(pair<int, int> posicion)
-{
-    return i * getCoche() + j;
-}
-
 ostream& Coche_t::write(ostream& os)
 {
-    for(int i = 0; i < getCoche(); i++)
-    {
-        for(int j = 0; j < getCoche(); j++)
-        {
-            coche_[getCochePos(i,j)].write(os);
-        }
-        cout << endl;
-    }
-    cout << endl;
+    os << "Las coordenadas donde se encuentra el coche son: \E[97m(" << posicion_.first << ", " << posicion_.second << ")." << endl;
 
     return os;
 }

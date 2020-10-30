@@ -15,7 +15,6 @@
 *   de obstáculos.
 */
 
-#include "mapa.hpp"
 #include "coche.hpp"
 
 #include <string>
@@ -27,7 +26,7 @@ bool casosInt(int& valor)   // Cuando haces una entrada revisa la entrada
     bool casos = cin.good(); // Devuelve 0 si la secuencia no existe 
     if (!casos)
     {
-        system("clear");
+        //system("clear");
 
         cin.clear();    // Limpiamos
         cin.ignore();   // Eliminamos el contenido
@@ -104,7 +103,7 @@ int main(void)
         cout << "\n\E[32m¿Desea leer desde fichero? \e[35m(0 NO, 1 SI)\e[35m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
         cin >> opcion;
         
-        system("clear");
+        //system("clear");
     //}
     //while (opcion !=0 || opcion != 1);
     
@@ -130,7 +129,7 @@ int main(void)
         while(ficheroEntrada.is_open() != 1);
     }
     
-    else    // Opción manual, falta por hacerse
+    else    // Opción manual
     {      
         cout << endl << "\E[33mDIMENSIONES DEL TABLERO.\E[33m" << endl;       // cian negrita    
 
@@ -161,7 +160,7 @@ int main(void)
 
         if(!opcion2) //  manual obstaculos
         {   
-            system("clear");
+            //system("clear");
 
             cout << endl << "\E[33mDETERMINACIÓN DE OBSTÁCULOS.\E[33m"<<endl;
 
@@ -230,12 +229,24 @@ int main(void)
                     
                 mapa.rellenarManual(o.first, o.second, '#');
             }
+
+            for(int i = 1; i < (filas - 1); i++)       
+            {
+                for (int j = 1; j < (columnas - 1); j++)
+                {
+                    if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '#')
+                    {
+                        //cout << "Posición: (" << i << ", " << j << ')' << endl;
+                        mapa.rellenarMovimientos(i, j);     
+                    }
+                }
+            }
         }
     }
 
     //system("clear");
     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.
-    coche.write(cout); // Imprimr por pantalla el coche
+    coche.write(cout);  // Imprimr por pantalla el coche    
 
     return 0;
 }

@@ -13,7 +13,12 @@ class Celda_t {
                         // $ obstáculo
                         // & coche
                         // = destino
-        vector<int> movimientos_;   //Los movimientos van en este orden: izquierda, arriba, derecha, abajo
+        pair<int, int> padre_;
+        vector<pair<int, int>> movimientos_;   // Los movimientos van en este orden: izquierda, arriba, derecha, abajo
+
+        int valorF; // Valor total acumulado
+        int valorG; // Valor del movimiento
+        int valorH; // Valor heurístico del movimiento
 
         void destroyCelda(void);    // Misma idea que el destroyMap
 
@@ -24,11 +29,11 @@ class Celda_t {
         ~Celda_t(void);     // Destructor
 
         char getValor(void);    // Devuelve el símbolo de la celda
-        vector<int> getMovimientos(void);   // Devuelve el vector de movimientos
-        int getMovimiento(int i);   // Devuelve un movimiento, según el valor de i sea 0, 1, 2 o 3
+        vector<pair<int, int>> getMovimientos(void);   // Devuelve el vector de movimientos
+        pair<int, int> getMovimiento(int i);   // Devuelve un movimiento, según el valor de i sea 0, 1, 2 o 3
 
         void setValor(char valor);  // Set del símbolo de la celda
-        void setMovimientos(vector<int> movimientos);   // Set del vector de movimientos de la celda
+        void setMovimientos(vector<pair<int, int>> movimientos);   // Set del vector de movimientos de la celda
 
         ostream& write(ostream& os);    // Método para imprimir por pantalla la celda
 };

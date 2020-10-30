@@ -3,7 +3,8 @@
 Mapa_t::Mapa_t(void):       // Inicializa todo a 0
     m_(0),
     n_(0),
-    mapa_(0)
+    mapa_(),
+    destino_()
 {}
 
 Mapa_t::Mapa_t(int n, int m)    // Inicializa a los valores que se le pasan, creo que no lo vamos a utilizar nunca
@@ -45,6 +46,11 @@ int Mapa_t::getMapaPos(int i, int j)    // Como el mapa es un array de una dimen
     return i * getN() + j;
 }
 
+pair<int, int> Mapa_t::getDestino(void)
+{
+    return destino_;
+}
+
 void Mapa_t::setM(int m)    // Modifica el valor de las columnas
 {
     m_ = m; 
@@ -72,9 +78,13 @@ fstream& Mapa_t::setMapa(int n, int m, fstream& fichero)    // Crea el mapa desd
     return fichero;
 }
 
+void Mapa_t::setDestino(pair<int, int> pos)
+{
+    destino_= pos;
+}
+
 void Mapa_t::rellenarMapa(void)     // Rellena el mapa vacío
 {
-    vector<int> aux = {1, 1, 1, 1};
     for(int i = 0; i < getN(); i++)
     {
         for(int j = 0; j < getM(); j++)
@@ -82,7 +92,6 @@ void Mapa_t::rellenarMapa(void)     // Rellena el mapa vacío
             if(i == 0 || j == 0 | i == (getN() - 1) | j == (getM() -1))
             {
                 mapa_[getMapaPos(i, j)].setValor('#');      // Asigna el símbolo a las paredes
-                mapa_[getMapaPos(i, j)].setMovimientos(aux);    // Y pone los movimientos de las pareces a 1
             }
             else
                 mapa_[getMapaPos(i, j)].setValor('.');      // Asigna el símbolo al centro del mapa
@@ -101,6 +110,7 @@ fstream& Mapa_t::rellenarCoche(fstream& fichero)
     fichero >> aux.first >> aux.second;
 
     mapa_[getMapaPos(aux.first, aux.second)].setValor('=');
+    setDestino(aux);
 
     return fichero;
 }
@@ -136,29 +146,43 @@ void Mapa_t::rellenarManual(int n, int m, char c)
 
 void Mapa_t::rellenarMovimientos(int i, int j)      // Comprueba los 4 posibles movimientos y les pone un 1 en caso de no poder realizarlos
 {
-    vector<int> aux = {0, 0, 0, 0};
+    vector<pair<int, int>> aux;
+    pair<int, int> dummy;
 
-   if(mapa_[getMapaPos(i, (j - 1))].getValor() == '#')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
-   {
-       aux[0] = 1;
-   }
+    if(mapa_[getMapaPos(i, (j - 1))].getValor() != '#')     // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
+    {
+        dummy.first = i;
+        dummy.second = j - 1;
+        aux.push_back(dummy);                               // Se añade la celda vecina visitable
+        //cout << "Izquierda" << endl;
+    }
 
-   if(mapa_[getMapaPos((i - 1), j)].getValor() == '#')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
-   {
-       aux[1] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
-   }
+    if(mapa_[getMapaPos((i - 1), j)].getValor() != '#')     // Comprueba que el valor a la arriba de la casilla (i,j) no sea ni un // obstáculo ni un borde
+    {
+        dummy.first = i - 1;
+        dummy.second = j;
+        aux.push_back(dummy);  
+        aux.push_back(dummy);                               // Se añade la celda vecina visitable
+        //cout << "Arriba" << endl;
+    }
 
-   if(mapa_[getMapaPos(i, (j + 1))].getValor() == '#')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
-   {
-       aux[2] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
-   }
+    if(mapa_[getMapaPos(i, (j + 1))].getValor() != '#')     // Comprueba que el valor a la derecha de la casilla (i,j) no sea ni un // obstáculo ni un borde
+    {
+         dummy.first = i;
+        dummy.second = j + 1;
+        aux.push_back(dummy);                               // Se añade la celda vecina visitable
+        //cout << "Derecha" << endl;
+    }
 
-   if(mapa_[getMapaPos((i + 1), j)].getValor() == '#')   // Comprueba que el valor a la izquierda de la casilla (i,j) no sea ni un // obstáculo ni un borde
-   {
-       aux[3] = 1;                                                                                          // Si es un borde u obstáculo el movimiento se pone a 1
-   }
+    if(mapa_[getMapaPos((i + 1), j)].getValor() != '#')     // Comprueba que el valor a la abajo de la casilla (i,j) no sea ni un // obstáculo ni un borde
+    {
+        dummy.first = i + 1;
+        dummy.second = j;
+        aux.push_back(dummy);                               // Se añade la celda vecina visitable
+        //cout << "Abajo" << endl;
+    }
 
-    mapa_[getMapaPos(i, j)].setMovimientos(aux);  // Se pasa el vector a la celda para que actualice los movimientos posibles
+    mapa_[getMapaPos(i, j)].setMovimientos(aux);            // Se pasa el vector a la celda para que actualice los movimientos posibles
 }
 
 ostream& Mapa_t::write(ostream& os)

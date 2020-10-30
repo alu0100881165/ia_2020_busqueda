@@ -13,6 +13,7 @@ class Mapa_t
         int n_;        // Filas
         int m_;        // Columnas
         Celda_t* mapa_;  // Matriz (array de celdas)
+        pair<int, int> destino_;
 
         void destroyMapa(void);
 
@@ -27,12 +28,15 @@ class Mapa_t
         int getN(void);              // Getter filas
         Celda_t* getMapa(void);         // Getter mapa
         int getMapaPos(int n, int m);
+        pair<int, int> getDestino(void);
 
         void setM(int m);            // Setter columnas
         void setN(int n);            // Setter filas
         void setMapa(int n, int m);  // Setter mapa, crea un mapa de tamaño n * m
         fstream& setMapa(int n, int m, fstream& fichero);   // Setter del mapa que sirve para leer desde un fichero la información del mismo 
                                                             // y crear el mapa de tamaño n * m, rellenarlo y añadirle los obstáculos.
+        void setDestino(pair<int, int> pos);
+
         void rellenarMapa(void);                            // Recorre el mapa, y lo rellena poniendo en los bordes el símbolo '#', y en el interior '.'
                                                             // Además llama al mñetodo setMovimientos cada vez que se crea un borde, para dejar claro que no
                                                             // se puede desplazar desde esa posición (que además es inalcanzable) a otra.

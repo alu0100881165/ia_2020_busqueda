@@ -38,8 +38,10 @@ Fichero.txt posicion del coche -> no devuelve nada
 - Almacenar celda padre, para poder retornar    HECHO
 - Crear los costes: f(total), g(coste del movimiento), h(coste heuristico del movimiento)   HECHO
 - Cambiar el array de movimientos de las celdas, para que almacene las celda_t vecinas y no números (ver si almacenar la posicion i, j) (me gustaría comparar si una posicion que alamcena una Celda_t == a esa misma Celda_t por separado) HECHO
-- Crear openset(casilla que se pueden visitar) y closedset(casillas ya visitadas)
+- Crear openset(casilla que se pueden visitar) y closedset(casillas ya visitadas) HECHO
 - Array de camino   HECHO
 - Crear función heurística (primero manhattan)
 
 Hacer push de la primera posicion en el openset.
+
+Duda sobre aux en rellenarMovimientos.

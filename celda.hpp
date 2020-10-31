@@ -17,7 +17,7 @@ class Celda_t {
         vector<pair<int, int>> movimientos_;   // Los movimientos van en este orden: izquierda, arriba, derecha, abajo
 
         int valorF; // Valor total acumulado
-        int valorG; // Valor del movimiento
+        int valorG; // Valor del movimiento                     f = g + h
         int valorH; // Valor heurístico del movimiento
 
         void destroyCelda(void);    // Misma idea que el destroyMap

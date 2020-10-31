@@ -70,6 +70,7 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
         {
             cout << endl << "\E[96m- Introduzca la posición i del destino: \E[97m";      // filas -> naranja
             cin >> d.first;
+            
             cout <<  "\E[96m- Introduzca la posición j del destino: \E[97m";      // columnas -> naranja
             cin >> d.second;
 

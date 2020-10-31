@@ -46,18 +46,25 @@ void Coche_t::aStar(Mapa_t& mapa)
     vector<pair<int, int>> openSet, closedSet;
 
     openSet.push_back(posicion_);
+    pair<int, int> dummy = posicion_;
+    //heuristicaManhattan(d);
 
     while(!openSet.empty())
     {
+       //rellenarMovimientos(dummy.first, dummy.second);
+
+
 
     }
 }
 
+// Funcion heuristica Manhattan
 int Coche_t::heuristicaManhattan(pair<int, int> destino)
 {
-    int x = abs(posicion_.first - destino.first);
+    int x = abs(posicion_.first - destino.first); // Ejemplo: posicion_(1,1) , destino_(1,7) = 0 + 6 = 6
     int y = abs(posicion_.second - destino.second);
     
+    
     return x + y;   // Hace falta un valor D que corresponde al coste mínimo para desplazarse a los nodos adyacentes, en nuestro caso vale 1 y no afecta
-    //return d * (x + y);
+    //return d * (x + y);  ValorG(1) = d
 }

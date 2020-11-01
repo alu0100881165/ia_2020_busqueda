@@ -249,5 +249,15 @@ int main(void)
     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.
     coche.write(cout);  // Imprimr por pantalla el coche    
 
+    if(coche.aStar(mapa))
+    {
+        cout << "Encuentra" << endl;
+    }
+    else
+    {
+        cout << "No encuentra" << endl;
+    }
+    
+
     return 0;
 }

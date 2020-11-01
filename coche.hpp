@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <vector>
 #include <cstdlib>
+#include <algorithm>
 
 using namespace std;
 
@@ -26,7 +27,7 @@ class Coche_t
 
         ostream& write(ostream& os);
 
-        void aStar(Mapa_t& mapa);
+        bool aStar(Mapa_t& mapa);
 
-        int heuristicaManhattan(pair<int, int> destino);
+        int heuristicaManhattan(pair<int, int> actual, pair<int, int> destino);
 };

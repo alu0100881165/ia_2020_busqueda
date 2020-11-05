@@ -64,9 +64,9 @@ void Celda_t::setMovimientos(vector<pair<int, int>> movimientos)   // Set del ve
     movimientos_ = movimientos;
 }
 
-void Celda_t::setPadre(pair<int, int> nuevo)
+void Celda_t::setPadre(pair<int, int> padre)
 {
-    padre_ = nuevo;
+    padre_ = padre;
 }
 
 void Celda_t::setF(void)

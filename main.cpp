@@ -99,14 +99,14 @@ int main(void)
     Coche_t coche;              // Coche declarado a posición (0, 0)
 
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
-    //do
-    //{
+    do
+    {
         cout << "\n\E[32m¿Desea leer desde fichero? \e[35m(0 NO, 1 SI)\e[35m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
         cin >> opcion;
         
-        //system("clear");
-    //}
-    //while (opcion !=0 || opcion != 1);
+        system("clear");
+    }
+    while (opcion !=0 && opcion != 1);
     
     if(opcion)
     {
@@ -119,7 +119,8 @@ int main(void)
             if(ficheroEntrada.is_open())    // Comprobamos que el fichero se haya abierto bien
             {
                 ficheroEntrada >> filas >> columnas;    // Las dos primeras líneas del fichero son las filas y las columnas, las almacenamos en sus respectivas variables
-
+                ficheroEntrada >> v.first >> v.second;
+                mapa.rellenarCoche(v);
                 mapa.setMapa(filas, columnas, ficheroEntrada);  // Se pasa al método setMapa lo necesario para construir todo el mapa sin punto de salida ni de llegada
             }
             else    // En caso de error al abrir el fichero se indica al usuario y termina la ejecución del programa
@@ -150,16 +151,21 @@ int main(void)
         mapa.setM(columnas);
         mapa.setMapa(filas, columnas);
 
-        bool opcion2;
-
-        cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[35m(0 Manual, 1 Aleatorio)\e[35m: \E[97m";      // columnas -> naranja
-        cin >> opcion2;
+        //bool opcion2;
+        do
+        {
+            cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[35m(0 Aleatorio, 1 Manual)\e[35m: \E[97m";      // columnas -> naranja
+            cin >> opcion;
+        }
+        while (opcion !=0 && opcion != 1);
+    
 
         v = crearVehiculo(mapa, filas, columnas);
         d = crearDestino(mapa, filas, columnas, v);
         coche.setPosicion(v);
-
-        if(!opcion2) //  manual obstaculos
+        mapa.setDestino(d);
+        
+        if(opcion) //  manual obstaculos
         {   
             //system("clear");
 
@@ -247,16 +253,47 @@ int main(void)
 
     //system("clear");
     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.
-    coche.write(cout);  // Imprimr por pantalla el coche    
+    //coche.write(cout);  // Imprimr por pantalla el coche    
+
+    vector<pair<int, int>> resultado;
 
     if(coche.aStar(mapa))
     {
-        cout << "Encuentra" << endl;
+        cout << " Se encuentra el camino." << endl;
+        resultado = coche.getCamino();
+        cout << "El camino seguido es: " << endl;
+        for(int i = (resultado.size() - 1); i >= 0; i--)
+        {
+            cout << '(' << resultado[i].first << ", " << resultado[i].second << ')' << " => ";
+        }
+        cout << endl;
     }
     else
     {
         cout << "No encuentra" << endl;
     }
+
+
+    // cout << endl << endl;
+    // cout << "A star 2." << endl << endl;
+
+    // if(coche.aStar2(mapa))
+    // {
+    //     cout << " Se encuentra el camino." << endl;
+    //     resultado = coche.getCamino();
+    //     cout << "El camino seguido es: " << endl;
+    //     for(int i = (resultado.size() - 1); i >= 0; i--)
+    //     {
+    //         cout << '(' << resultado[i].first << ", " << resultado[i].second << ')' << " => ";
+    //     }
+    //     cout << endl;
+    // }
+    // else
+    // {
+    //     cout << "No encuentra" << endl;
+    // }
+
+
     
 
     return 0;

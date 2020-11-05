@@ -46,7 +46,7 @@ int Mapa_t::getMapaPos(int i, int j)    // Como el mapa es un array de una dimen
     return i * getN() + j;
 }
 
-Celda_t Mapa_t::getCeldaPos(pair<int, int> pos)
+Celda_t& Mapa_t::getCeldaPos(pair<int, int> pos)
 {
     return mapa_[getMapaPos(pos.first, pos.second)];
 }

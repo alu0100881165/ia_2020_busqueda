@@ -28,7 +28,7 @@ class Mapa_t
         int getN(void);              // Getter filas
         Celda_t* getMapa(void);         // Getter mapa
         int getMapaPos(int n, int m);
-        Celda_t getCeldaPos(pair<int, int> pos);
+        Celda_t& getCeldaPos(pair<int, int> pos);
         pair<int, int> getDestino(void);
 
         void setM(int m);            // Setter columnas

@@ -38,7 +38,7 @@ class Celda_t {
 
         void setValor(char valor);  // Set del símbolo de la celda
         void setMovimientos(vector<pair<int, int>> movimientos);   // Set del vector de movimientos de la celda
-        void setPadre(pair<int, int> );
+        void setPadre(pair<int, int> padre);
         void setF(void);          // setter F
         void setG(int g);
         void setH(int h);

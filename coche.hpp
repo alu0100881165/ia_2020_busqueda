@@ -23,11 +23,14 @@ class Coche_t
         ~Coche_t();  // Destructor
         
         pair<int, int> getPosicion(void);  // Getter posiciones
+        vector<pair<int, int>> getCamino(void);
         void setPosicion(pair<int, int> posicion); // Setter posiciones
+        void setAppendCamino(pair<int, int>);
 
         ostream& write(ostream& os);
-
+        
         bool aStar(Mapa_t& mapa);
+        // bool aStar2(Mapa_t& mapa);
 
         int heuristicaManhattan(pair<int, int> actual, pair<int, int> destino);
 };

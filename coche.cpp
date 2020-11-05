@@ -174,7 +174,8 @@ bool Coche_t::aStar(Mapa_t& mapa)
             {
                 // No hay un camino al destino
                 terminado = true;
-                cout << "No hay camino al destino." << endl;
+                cout << "\E[31mNo hay camino al destino." << endl;
+                cout << endl;
                 return 0;
             }   
         }

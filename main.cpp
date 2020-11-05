@@ -120,7 +120,7 @@ int main(void)
             {
                 ficheroEntrada >> filas >> columnas;    // Las dos primeras líneas del fichero son las filas y las columnas, las almacenamos en sus respectivas variables
                 ficheroEntrada >> v.first >> v.second;
-                mapa.rellenarCoche(v);
+                //mapa.rellenarCoche(v);
                 mapa.setMapa(filas, columnas, ficheroEntrada);  // Se pasa al método setMapa lo necesario para construir todo el mapa sin punto de salida ni de llegada
             }
             else    // En caso de error al abrir el fichero se indica al usuario y termina la ejecución del programa
@@ -259,9 +259,9 @@ int main(void)
 
     if(coche.aStar(mapa))
     {
-        cout << " Se encuentra el camino." << endl;
+        cout << "\E[35mExiste el camino." << endl;
         resultado = coche.getCamino();
-        cout << "El camino seguido es: " << endl;
+        cout << endl << "\E[33mEl camino seguido es: \e[97m" << endl;
         for(int i = (resultado.size() - 1); i >= 0; i--)
         {
             cout << '(' << resultado[i].first << ", " << resultado[i].second << ')' << " => ";
@@ -270,7 +270,7 @@ int main(void)
     }
     else
     {
-        cout << "No encuentra" << endl;
+        cout << "\E[31mNo existe solución para este caso expuesto." << endl;
     }
 
 

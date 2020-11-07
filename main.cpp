@@ -40,12 +40,12 @@ bool casosInt(int& valor)   // Cuando haces una entrada revisa la entrada
 pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
 {
     pair<int, int> v;
-    cout << endl << "\E[33mDETERMINACIÓN DEL VEHÍCULO.\E[33m"<<endl;
+    cout << endl << "\E[93mDETERMINACIÓN DEL VEHÍCULO.\E[93m"<<endl;
         do
         {
-            cout << endl << "\E[96m- Introduzca la posición i del vehículo: \E[97m";      // filas -> naranja
+            cout << endl << "\E[94m- Introduzca la posición \E[97mi\E[94m del vehículo: \E[97m";      // filas -> naranja
             cin >> v.first;
-            cout << "\E[96m- Introduzca la posición j del vehículo: \E[97m";      // columnas -> naranja
+            cout << "\E[94m- Introduzca la posición \E[97mj\E[94m del vehículo: \E[97m";      // columnas -> naranja
             cin >> v.second;
 
             if(v.first > 0 && v.second > 0 && v.first < (filas - 1) && v.second < (columnas - 1))           // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -54,7 +54,7 @@ pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
             }
             else
             {
-                cout << endl << "\E[31m--> Error de posición: Introduzca el vehículo en una posición viable (no en los bordes). \E[31m" << endl;
+                cout << endl << "\E[31m--> Error de posición: Introduzca el vehículo en una posición \E[93mviable \E[93m\E[97m(no en los bordes)." << endl;
             }
         } 
         while (v.first <= 0 || v.second <= 0 || v.first >= (filas - 1) || v.second >= (columnas - 1));      // if(-1)
@@ -66,13 +66,13 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
 {
     pair<int, int> d;
 
-    cout << endl << "\E[33mDETERMINACIÓN DEL DESTINO.\E[33m" << endl;
+    cout << endl << "\E[93mDETERMINACIÓN DEL DESTINO.\E[93m" << endl;
         do
         {
-            cout << endl << "\E[96m- Introduzca la posición i del destino: \E[97m";      // filas -> naranja
+            cout << endl << "\E[94m- Introduzca la posición \E[97mi\E[94m del destino: \E[97m";      // filas -> naranja
             cin >> d.first;
             
-            cout <<  "\E[96m- Introduzca la posición j del destino: \E[97m";      // columnas -> naranja
+            cout <<  "\E[94m- Introduzca la posición \E[97mj\E[94m del destino: \E[97m";      // columnas -> naranja
             cin >> d.second;
 
             if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && d != v)         // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -102,7 +102,7 @@ int main(void)
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
     do
     {
-        cout << "\n\E[32m¿Desea leer desde fichero? \e[95m(0 NO, 1 SI)\e[95m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
+        cout << "\n\E[32m¿Desea leer desde fichero? \e[95m\e[1m(0 NO, 1 SI)\e[0m\e[95m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
         cin >> opcion;
         
         system("clear");
@@ -113,7 +113,7 @@ int main(void)
     {
         do
         { 
-            cout << endl << "\E[33m- Introduzca el nombre del fichero: \E[97m";        // filas -> naranja 
+            cout << endl << "\E[93m- Introduzca el nombre del fichero: \E[97m";        // filas -> naranja 
             cin >> nombreFichero;
 
             ficheroEntrada.open(nombreFichero.c_str(), fstream::in);    // Se abre el fichero de entrada
@@ -137,19 +137,31 @@ int main(void)
         while(ficheroEntrada.is_open() != 1);
     }
     
+    // cout << endl<<"\E[43mFUNCIÓN HEURÍSTICA.\E[49m"<<endl;
+    
+    // while(true)
+    // {    
+    //     do{
+    //         cout << endl <<"1.-Distancia de Manhattan.";
+    //         cout << endl <<"2.-Distancia de Euclidean.";
+    //         cout << endl <<"\E[31mIndique con un valor numérico la función heurística que desea emplear (1|2|3): \E[97m";
+    //     }
+    //     while (casosInt(heuristica))
+    // }
+
     else    // Opción manual
     {      
-        cout << endl << "\E[33mDIMENSIONES DEL TABLERO.\E[33m" << endl;       // cian negrita    
+        cout << endl << "\E[93mDIMENSIONES DEL TABLERO.\E[93m" << endl;       // cian negrita    
 
         do
         {
-            cout << endl << "\E[96m- Introduzca el número de filas de la tabla \e[32m(>= 4): \E[97m";        // filas -> naranja
+            cout << endl << "\E[94m- Introduzca el número de \E[97mfilas\E[94m de la tabla \e[92m\e[4m(>= 4)\e[0m: \E[97m";        // filas -> naranja
         } 
         while (casosInt(filas) || filas < 4);
 
         do
         {
-            cout << "\E[96m- Introduzca el número de columnas de la tabla \e[32m(>= 4): \E[97m";      // columnas -> naranja
+            cout << "\E[94m- Introduzca el número de \E[97mcolumnas\E[94m de la tabla \e[92m\e[4m(>= 4)\e[0m: \E[97m";      // columnas -> naranja
         } 
         while (casosInt(columnas) || columnas < 4);
 
@@ -160,7 +172,7 @@ int main(void)
         //bool opcion2;
         do
         {
-            cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[95m(0 Aleatorio, 1 Manual)\e[95m: \E[97m";      // columnas -> naranja
+            cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[95m\e[1m(0 Aleatorio, 1 Manual)\e[95m\e[0m: \E[97m";      // columnas -> naranja
             cin >> opcion;
         }
         while (opcion !=0 && opcion != 1);
@@ -175,14 +187,14 @@ int main(void)
             
             system("clear");
 
-            cout << endl << "\E[33mDETERMINACIÓN DE OBSTÁCULOS.\E[33m"<<endl;
+            cout << endl << "\E[93mDETERMINACIÓN DE OBSTÁCULOS.\E[93m"<<endl;
 
             do
             {
-                cout << endl << "\E[33m- (Introduzca 0 0 para salir) \E[33m";      // columnas -> naranja
-                cout << endl << "\E[96m- Introduzca la posición i de un obstáculo: \E[97m";      // columnas -> naranja
+                cout << endl << "\E[91m-> (Introduzca \E[97m0 0\E[91m para salir) \E[91m" << endl;      
+                cout << endl << "\E[94m- Introduzca la posición \E[97mi\E[94m de un obstáculo: \E[97m";      
                 cin >> o.first;
-                cout  << "\E[96m- Introduzca la posición j de un obstáculo: \E[97m";      // columnas -> naranja
+                cout  << "\E[94m- Introduzca la posición \E[97mj\E[94m de un obstáculo: \E[97m";      
                 cin >> o.second;
                                
                 if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d && '#' != mapa.getMapa()[mapa.getMapaPos(o.first, o.second)].getValor())   // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -211,18 +223,18 @@ int main(void)
         }
         else // Caso aleatorios 
         {               
-            cout << endl << "\E[33mDETERMINACIÓN DE OBSTÁCULOS.\E[33m"<<endl;
+            cout << endl << "\E[93mDETERMINACIÓN DE OBSTÁCULOS.\E[93m"<<endl;
             do
             {
                 do
                 {
-                    cout << endl << "\E[96mIntroduza el porcentaje de obstaculos que desee: \E[97m";    // El usuario introduce un %
+                    cout << endl << "\E[94mIntroduza el \E[97mporcentaje\E[94m de obstaculos que desee: \E[97m";    // El usuario introduce un %
                 } 
                 while(casosInt(porcentajes_obstaculos));
 
                 if(porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100)
                 {
-                    cout << endl << "\E[31m--> Error: Introduzca un porcentaje dentro del rango 0-100.\E[39m" << endl;  // Error rango
+                    cout << endl << "\E[31m--> Error: Introduzca un porcentaje dentro del rango \E[97m0-100\E[31m.\E[39m" << endl;  // Error rango
                 }
                 
             } while (porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100);  // Hasta < 0 o > 100
@@ -266,7 +278,7 @@ int main(void)
 
     auto t1 = chrono::high_resolution_clock::now();
 
-    cout << "\E[33mA* con heurística Manhattan.\E[33m" << endl << endl;
+    cout << "\E[93m\e[7mA* con heurística Manhattan.\E[93m\e[0m" << endl << endl;
     if(coche.aStar(mapa, 1))
     {
         cout << "\E[95mExiste el camino.\E[95m" << endl;
@@ -282,9 +294,9 @@ int main(void)
 
     auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
 
-    cout << "\E[97m--> La función Manhattan toma: " << "\E[96m" << duration << " milisegundos.\E[96m" << endl;
-    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[96m" << coche.getCamino().size() <<".\E[96m"<< endl;
-    cout << "\E[97m--> Los nodos generados son: " << "\E[96m" << coche.getContNodosGenerados() << ".\E[96m"<< endl << endl;
+    cout << "\E[97m--> La función Manhattan toma: " << "\E[94m" << duration << " milisegundos.\E[94m" << endl;
+    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() <<".\E[94m"<< endl;
+    cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
 
     d.first = 0;
     d.second = 0;
@@ -306,7 +318,7 @@ int main(void)
 
     t1 = chrono::high_resolution_clock::now();
 
-    cout << endl << "\E[33mA* con heurística Euclídea.\E[33m" << endl << endl;
+    cout << endl << "\E[93m\e[7mA* con heurística Euclídea.\E[93m\e[0m" << endl << endl;
 
     if(coche.aStar(mapa, 0))
     {
@@ -323,9 +335,9 @@ int main(void)
 
     duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
 
-    cout << "\E[97m--> La función Euclídea toma: " << "\E[96m" << duration << " milisegundos.\E[96m" << endl;
-    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[96m" << coche.getCamino().size() << ".\E[96m"<< endl;
-    cout << "\E[97m--> Los nodos generados son: " << "\E[96m" << coche.getContNodosGenerados() << ".\E[96m"<< endl << endl;
+    cout << "\E[97m--> La función Euclídea toma: " << "\E[94m" << duration << " milisegundos.\E[94m" << endl;
+    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() << ".\E[94m"<< endl;
+    cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
 
     // Imprimir el valor de la posición del coche y destino, reset de padres.
 

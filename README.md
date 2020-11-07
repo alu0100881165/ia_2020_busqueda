@@ -15,5 +15,3 @@ ellos).
   introducir la posición que quiera del obstáculo(no puede ser una pared, ni la posición del coche
   o del destino, ni de otro obstáculo ya introducido). En caso del aleatorio, se introducirá un
   porcentaje(0-100) de aparición de los obtáculos en nuestra matriz.
-
-

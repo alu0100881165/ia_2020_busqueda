@@ -1,0 +1,4 @@
+
+Practica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.
+
+[32m¿Desea leer desde fichero? [35m(0 NO, 1 SI)[35m: [97m

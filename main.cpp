@@ -19,6 +19,7 @@
 
 #include <string>
 #include <cstdlib>
+#include <chrono>
 
 bool casosInt(int& valor)   // Cuando haces una entrada revisa la entrada
 {
@@ -101,7 +102,7 @@ int main(void)
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
     do
     {
-        cout << "\n\E[32m¿Desea leer desde fichero? \e[35m(0 NO, 1 SI)\e[35m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
+        cout << "\n\E[32m¿Desea leer desde fichero? \e[95m(0 NO, 1 SI)\e[95m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
         cin >> opcion;
         
         system("clear");
@@ -119,9 +120,14 @@ int main(void)
             if(ficheroEntrada.is_open())    // Comprobamos que el fichero se haya abierto bien
             {
                 ficheroEntrada >> filas >> columnas;    // Las dos primeras líneas del fichero son las filas y las columnas, las almacenamos en sus respectivas variables
+                
                 ficheroEntrada >> v.first >> v.second;
-                //mapa.rellenarCoche(v);
-                mapa.setMapa(filas, columnas, ficheroEntrada);  // Se pasa al método setMapa lo necesario para construir todo el mapa sin punto de salida ni de llegada
+                ficheroEntrada >> d.first >> d.second;
+
+                coche.setPosicion(v);
+                mapa.setDestino(d);
+
+                mapa.setMapa(filas, columnas, ficheroEntrada, v, d);  // Se pasa al método setMapa lo necesario para construir todo el mapa sin punto de salida ni de llegada
             }
             else    // En caso de error al abrir el fichero se indica al usuario y termina la ejecución del programa
             {
@@ -154,11 +160,10 @@ int main(void)
         //bool opcion2;
         do
         {
-            cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[35m(0 Aleatorio, 1 Manual)\e[35m: \E[97m";      // columnas -> naranja
+            cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[95m(0 Aleatorio, 1 Manual)\e[95m: \E[97m";      // columnas -> naranja
             cin >> opcion;
         }
         while (opcion !=0 && opcion != 1);
-    
 
         v = crearVehiculo(mapa, filas, columnas);
         d = crearDestino(mapa, filas, columnas, v);
@@ -166,8 +171,9 @@ int main(void)
         mapa.setDestino(d);
         
         if(opcion) //  manual obstaculos
-        {   
-            //system("clear");
+        { 
+            
+            system("clear");
 
             cout << endl << "\E[33mDETERMINACIÓN DE OBSTÁCULOS.\E[33m"<<endl;
 
@@ -179,9 +185,10 @@ int main(void)
                 cout  << "\E[96m- Introduzca la posición j de un obstáculo: \E[97m";      // columnas -> naranja
                 cin >> o.second;
                                
-                if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d)   // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
+                if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d && '#' != mapa.getMapa()[mapa.getMapaPos(o.first, o.second)].getValor())   // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
                 {                                                                                                           // Arriba, Izquierda, abajo y derecha, además de que no esté en la posición del vehículo ni del destino.
-                    mapa.rellenarManual(o.first, o.second, '#');                                                            // Guarda en la posición pair 'o' un obstáculo, '#'.                                                                           
+                    mapa.rellenarManual(o.first, o.second, '#');  
+                    system("clear");                                                                                        // Guarda en la posición pair 'o' un obstáculo, '#'.                                                                           
                 }
 
                 else
@@ -251,50 +258,76 @@ int main(void)
         }
     }
 
-    //system("clear");
-    mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.
-    //coche.write(cout);  // Imprimr por pantalla el coche    
+    system("clear");
 
-    vector<pair<int, int>> resultado;
+    mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.    
 
-    if(coche.aStar(mapa))
+    // vector<pair<int, int>> resultado;
+
+    auto t1 = chrono::high_resolution_clock::now();
+
+    cout << "\E[33mA* con heurística Manhattan.\E[33m" << endl << endl;
+    if(coche.aStar(mapa, 1))
     {
-        cout << "\E[35mExiste el camino." << endl;
-        resultado = coche.getCamino();
-        cout << endl << "\E[33mEl camino seguido es: \e[97m" << endl;
-        for(int i = (resultado.size() - 1); i >= 0; i--)
-        {
-            cout << '(' << resultado[i].first << ", " << resultado[i].second << ')' << " => ";
-        }
-        cout << endl;
+        cout << "\E[95mExiste el camino.\E[95m" << endl;
     }
     else
     {
-        cout << "\E[31mNo existe solución para este caso expuesto." << endl;
+        cout << "\E[31mNo existe solución para este caso expuesto.\E[31m" << endl;
     }
 
+    auto t2 = chrono::high_resolution_clock::now(); 
 
-    // cout << endl << endl;
-    // cout << "A star 2." << endl << endl;
+    mapa.write(cout);  
 
-    // if(coche.aStar2(mapa))
-    // {
-    //     cout << " Se encuentra el camino." << endl;
-    //     resultado = coche.getCamino();
-    //     cout << "El camino seguido es: " << endl;
-    //     for(int i = (resultado.size() - 1); i >= 0; i--)
-    //     {
-    //         cout << '(' << resultado[i].first << ", " << resultado[i].second << ')' << " => ";
-    //     }
-    //     cout << endl;
-    // }
-    // else
-    // {
-    //     cout << "No encuentra" << endl;
-    // }
+    auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
 
+    cout << "\E[97m--> La función Manhattan toma: " << "\E[96m" << duration << " milisegundos.\E[96m" << endl;
+    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[96m" << coche.getCamino().size() <<".\E[96m"<< endl;
+    cout << "\E[97m--> Los nodos generados son: " << "\E[96m" << coche.getContNodosGenerados() << ".\E[96m"<< endl << endl;
 
-    
+    d.first = 0;
+    d.second = 0;
+    for(int i = 1; i < (mapa.getN() - 1); i++)
+    {
+        for(int j = 1; j < (mapa.getM() - 1); j++)
+        {
+            o.first = i;
+            o.second = j;
+            mapa.getCeldaPos(o).setPadre(d);
+            mapa.getCeldaPos(o).resetCost();
+            if(mapa.getCeldaPos(o).getValor() == '&')
+            {
+                mapa.getCeldaPos(o).setValor('.');
+            }
+        }
+    }
+    mapa.getCeldaPos(v).setValor('&');
+
+    t1 = chrono::high_resolution_clock::now();
+
+    cout << endl << "\E[33mA* con heurística Euclídea.\E[33m" << endl << endl;
+
+    if(coche.aStar(mapa, 0))
+    {
+        cout << "\E[95mExiste el camino.\E[95m" << endl;
+    }
+    else
+    {
+        cout << "\E[31mNo existe solución para este caso expuesto.\E[31m" << endl;
+    }
+
+    t2 = chrono::high_resolution_clock::now(); 
+
+    mapa.write(cout);  
+
+    duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
+
+    cout << "\E[97m--> La función Euclídea toma: " << "\E[96m" << duration << " milisegundos.\E[96m" << endl;
+    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[96m" << coche.getCamino().size() << ".\E[96m"<< endl;
+    cout << "\E[97m--> Los nodos generados son: " << "\E[96m" << coche.getContNodosGenerados() << ".\E[96m"<< endl << endl;
+
+    // Imprimir el valor de la posición del coche y destino, reset de padres.
 
     return 0;
 }

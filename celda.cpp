@@ -84,9 +84,20 @@ void Celda_t::setH(int h)
     valorH = h;    
 }
 
+void Celda_t::resetCost(void)
+{
+    setG(0);
+    setH(0);
+    setF();
+}
+
 ostream& Celda_t::write(ostream& os)    // Método para imprimir por pantalla la celda
 {
-    if(valor_ == '&')           // azul
+    if (valor_ == '%')          // amarillo(provisional)
+    {
+        os << "\E[33m" << setw(2) << valor_ << "\E[33m";
+    }
+    else if(valor_ == '&')       // azul
     {
         os << "\E[34m" << setw(2) << valor_ << "\E[34m";
     }

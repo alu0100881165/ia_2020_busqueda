@@ -34,14 +34,14 @@ class Mapa_t
         void setM(int m);            // Setter columnas
         void setN(int n);            // Setter filas
         void setMapa(int n, int m);  // Setter mapa, crea un mapa de tamaño n * m
-        fstream& setMapa(int n, int m, fstream& fichero);   // Setter del mapa que sirve para leer desde un fichero la información del mismo 
+        fstream& setMapa(int n, int m, fstream& fichero, pair<int, int> coche, pair<int, int> destino);   // Setter del mapa que sirve para leer desde un fichero la información del mismo 
                                                             // y crear el mapa de tamaño n * m, rellenarlo y añadirle los obstáculos.
         void setDestino(pair<int, int> pos);
 
         void rellenarMapa(void);                            // Recorre el mapa, y lo rellena poniendo en los bordes el símbolo '#', y en el interior '.'
                                                             // Además llama al mñetodo setMovimientos cada vez que se crea un borde, para dejar claro que no
                                                             // se puede desplazar desde esa posición (que además es inalcanzable) a otra.
-        fstream& rellenarCoche(fstream& fichero);
+        void rellenarCoche(pair<int, int> coche, pair<int, int> destino);
         fstream& rellenarObstaculos(fstream& fichero);      // Lee desde el fichero que se pasa la posición de los obstáculos y los
                                                             // coloca en el mapa. Además llama a rellenar movimientos (que no itera en los
                                                             // bordes del mapa), que se encarga de indicar qué movimientos se pueden hacer

@@ -42,6 +42,7 @@ class Celda_t {
         void setF(void);          // setter F
         void setG(int g);
         void setH(int h);
+        void resetCost(void);
 
         ostream& write(ostream& os);    // Método para imprimir por pantalla la celda
 };

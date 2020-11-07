@@ -72,12 +72,12 @@ void Mapa_t::setMapa(int n, int m)  // Cambia el tamaño del mapa
     rellenarMapa();     // Y genera el mapa vacío
 }
 
-fstream& Mapa_t::setMapa(int n, int m, fstream& fichero)    // Crea el mapa desde un fichero que se pasa por referencia
+fstream& Mapa_t::setMapa(int n, int m, fstream& fichero, pair<int, int> coche, pair<int, int> destino)    // Crea el mapa desde un fichero que se pasa por referencia
 {
     setN(n);
     setM(m);
     setMapa(n, m);
-    rellenarCoche(fichero);
+    rellenarCoche(coche, destino);
     rellenarObstaculos(fichero);
 
     return fichero;
@@ -104,20 +104,12 @@ void Mapa_t::rellenarMapa(void)     // Rellena el mapa vacío
     }
 }
 
-fstream& Mapa_t::rellenarCoche(fstream& fichero)
+void Mapa_t::rellenarCoche(pair<int, int> coche, pair<int, int> destino)
 {
-    pair<int, int> aux;
+    mapa_[getMapaPos(coche.first, coche.second)].setValor('&');
 
-    fichero >> aux.first >> aux.second;
-
-    mapa_[getMapaPos(aux.first, aux.second)].setValor('&');
-
-    fichero >> aux.first >> aux.second;
-
-    mapa_[getMapaPos(aux.first, aux.second)].setValor('=');
-    setDestino(aux);
-
-    return fichero;
+    mapa_[getMapaPos(destino.first, destino.second)].setValor('=');
+    setDestino(destino);
 }
 
 fstream& Mapa_t::rellenarObstaculos(fstream& fichero)   // Rellena al mapa con los obstáculos
@@ -191,8 +183,9 @@ void Mapa_t::rellenarMovimientos(int i, int j)      // Comprueba los 4 posibles 
 
 ostream& Mapa_t::write(ostream& os)
 {
-    cout << "Número de filas: " << getN() << " Número de columnas: " << getM() << endl;
-    cout << "Mapa: " << endl;
+    //cout << "Número de filas: " << getN() << " Número de columnas: " << getM() << endl;
+    //cout << "Mapa: " << endl;
+    cout << endl << "\E[33mImprimiendo...\E[33m" << endl << endl;
 
     for(int i = 0; i < getN(); i++)     // Recorre el mapa y va imprimiendo las celdas de una en una
     {

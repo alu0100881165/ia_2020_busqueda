@@ -54,4 +54,6 @@ class Mapa_t
 
         ostream& write(ostream& os);                        // Método que pinta por pantalla el mapa. Pasa por referencia un ostream, esto no es necesario
                                                             // pero queda bien, y llama al método write de la celda que hace lo mismo.
+
+        void resetMapa(pair<int, int> coche);
 };

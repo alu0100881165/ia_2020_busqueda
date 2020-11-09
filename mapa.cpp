@@ -212,7 +212,7 @@ void Mapa_t::resetMapa(pair<int, int> coche)
             aux.second = j;
             getCeldaPos(aux).setPadre(dummy);
             getCeldaPos(aux).resetCost();
-            if(getCeldaPos(aux).getValor() == '&')
+            if(getCeldaPos(aux).getValor() == '&' || getCeldaPos(aux).getValor() == '%')
                 getCeldaPos(aux).setValor('.');
         }
     }

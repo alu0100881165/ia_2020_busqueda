@@ -4,9 +4,9 @@ Celda_t::Celda_t():     // Constructor por defecto
     valor_('\0'),
     padre_(),
     movimientos_(),
-    valorF(),
-    valorG(0),
-    valorH()
+    valorF_(),
+    valorG_(0),
+    valorH_()
     {}
 
 Celda_t::~Celda_t(void) //Destructor
@@ -41,17 +41,17 @@ pair<int, int> Celda_t::getPadre(void)
 
 int Celda_t::getF(void)
 {
-    return valorF;
+    return valorF_;
 }
 
 int Celda_t::getG(void)
 {
-    return valorG;
+    return valorG_;
 }
 
 int Celda_t::getH(void)
 {
-    return valorH;
+    return valorH_;
 }
 
 void Celda_t::setValor(char valor)  // Set del símbolo de la celda
@@ -71,17 +71,23 @@ void Celda_t::setPadre(pair<int, int> padre)
 
 void Celda_t::setF(void)
 {
-    valorF = valorG + valorH;
+    valorF_ = valorG_ + valorH_;
+}
+
+void Celda_t::setF(int h)
+{
+    valorF_ = h;
+    setH(h);
 }
 
 void Celda_t::setG(int g)
 {
-    valorG = g; 
+    valorG_ = g; 
 }
 
 void Celda_t::setH(int h)
 {
-    valorH = h;    
+    valorH_ = h;    
 }
 
 void Celda_t::resetCost(void)

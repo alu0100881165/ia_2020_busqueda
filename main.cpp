@@ -276,20 +276,19 @@ int main(void)
 
     system("clear");
 
-    /*
-    outfile << filas << ' ' << columnas << endl;
-    outfile << v.first << ' ' << v.second << endl;
-    outfile << d.first << ' ' << d.second << endl;
+    // outfile << filas << ' ' << columnas << endl;
+    // outfile << v.first << ' ' << v.second << endl;
+    // outfile << d.first << ' ' << d.second << endl;
 
-    for(int i = 1; i < (filas - 1); i++)
-    {
-        for(int j = 1; j < (columnas - 1); j++)
-        {
-            if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
-                outfile << i << ' ' << j << endl;
-        }
-    }
-    outfile.close();
+    // for(int i = 1; i < (filas - 1); i++)
+    // {
+    //     for(int j = 1; j < (columnas - 1); j++)
+    //     {
+    //         if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
+    //             outfile << i << ' ' << j << endl;
+    //     }
+    // }
+    // outfile.close();
 
      mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.    
 
@@ -301,12 +300,10 @@ int main(void)
     if(coche.aStar(mapa, 1))
     {
         cout << "\E[95mExiste el camino.\E[95m" << endl;
-        opcion = 0;
     }
     else
     {
         cout << "\E[31mNo existe solución para este caso expuesto.\E[31m" << endl;
-        opcion = 0;
     }
 
     auto t2 = chrono::high_resolution_clock::now(); 
@@ -319,6 +316,7 @@ int main(void)
     // cout << "Reset mapa." << endl;
     mapa.resetMapa(v);
     // mapa.write(cout);
+    // cout << mapa.getDestino().first << ", " << mapa.getDestino().second << endl;
     // cout << "Reset done." << endl;
 
 
@@ -331,7 +329,7 @@ int main(void)
 
     cout << endl << "\E[93m\e[7mA* con heurística Euclídea.\E[93m\e[0m" << endl << endl;
 
-    if(coche.aStar(mapa, 0) && opcion)
+    if(coche.aStar(mapa, 0))
     {
         cout << "\E[95mExiste el camino.\E[95m" << endl;
     }
@@ -350,89 +348,89 @@ int main(void)
     cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() << ".\E[94m"<< endl;
     cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
 
-    // Imprimir el valor de la posición del coche y destino, reset de padres.*/
+    // Imprimir el valor de la posición del coche y destino, reset de padres.
 
 
-    pair<int, int> fichero;
-    int iteracion = 1;
+    // pair<int, int> fichero;
+    // int iteracion = 1;
 
-    while(1)
-    {
-        cout << "Iteración: " << iteracion << endl;
-        mapa.resetMapa(v);
-        for(int i = 1; i < (filas - 1); i++)
-        {
-            for(int j = 1; j < (columnas - 1); j++)
-            {
-                fichero.first = i;
-                fichero.second = j;
-                if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
-                    mapa.getCeldaPos(fichero).setValor('.');
-            }
-        }
+    // while(1)
+    // {
+    //     cout << "Iteración: " << iteracion << endl;
+    //     mapa.resetMapa(v);
+    //     for(int i = 1; i < (filas - 1); i++)
+    //     {
+    //         for(int j = 1; j < (columnas - 1); j++)
+    //         {
+    //             fichero.first = i;
+    //             fichero.second = j;
+    //             if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
+    //                 mapa.getCeldaPos(fichero).setValor('.');
+    //         }
+    //     }
 
-        int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
+    //     int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
 
-        srand(time(NULL)); // Caso random = NULL
+    //     srand(time(NULL)); // Caso random = NULL
 
-        for(int i = 0; i < tam; i++)
-        {   
-            do
-            {
-                o.first = rand() % filas; // caso random first
-                o.second = rand() % filas; // caso random second
-            }
-            while (o.first <= 0 || o.second <= 0 || o.first >= (filas - 1) || o.second >= (columnas - 1) || o == v || o == d);
+    //     for(int i = 0; i < tam; i++)
+    //     {   
+    //         do
+    //         {
+    //             o.first = rand() % filas; // caso random first
+    //             o.second = rand() % filas; // caso random second
+    //         }
+    //         while (o.first <= 0 || o.second <= 0 || o.first >= (filas - 1) || o.second >= (columnas - 1) || o == v || o == d);
                     
-            mapa.rellenarManual(o.first, o.second, '#');
-        }
+    //         mapa.rellenarManual(o.first, o.second, '#');
+    //     }
 
-        for(int i = 1; i < (filas - 1); i++)       
-        {
-            for (int j = 1; j < (columnas - 1); j++)
-            {
-                if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '#')
-                {
-                    mapa.rellenarMovimientos(i, j);     
-                }
-            }
-        }
+    //     for(int i = 1; i < (filas - 1); i++)       
+    //     {
+    //         for (int j = 1; j < (columnas - 1); j++)
+    //         {
+    //             if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '#')
+    //             {
+    //                 mapa.rellenarMovimientos(i, j);     
+    //             }
+    //         }
+    //     }
 
-        outfile << filas << ' ' << columnas << endl;
-        outfile << v.first << ' ' << v.second << endl;
-        outfile << d.first << ' ' << d.second << endl;
+    //     outfile << filas << ' ' << columnas << endl;
+    //     outfile << v.first << ' ' << v.second << endl;
+    //     outfile << d.first << ' ' << d.second << endl;
 
-        for(int i = 1; i < (filas - 1); i++)
-        {
-            for(int j = 1; j < (columnas - 1); j++)
-            {
-                if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
-                    outfile << i << ' ' << j << endl;
-            }
-        }
-        outfile.close();
+    //     for(int i = 1; i < (filas - 1); i++)
+    //     {
+    //         for(int j = 1; j < (columnas - 1); j++)
+    //         {
+    //             if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
+    //                 outfile << i << ' ' << j << endl;
+    //         }
+    //     }
+    //     outfile.close();
 
-        if(coche.aStar(mapa, 1))
-        {
-            opcion = 1;
-        }
-        else
-        {
-            opcion = 0;
-        }
-
-
-        mapa.resetMapa(v);
+    //     if(coche.aStar(mapa, 1))
+    //     {
+    //         opcion = 1;
+    //     }
+    //     else
+    //     {
+    //         opcion = 0;
+    //     }
 
 
-        if(coche.aStar(mapa, 0) && opcion)
-        {
-            return 0;
-        }
+    //     mapa.resetMapa(v);
 
-        iteracion++;
 
-    }
+    //     if(coche.aStar(mapa, 0) && opcion)
+    //     {
+    //         return 0;
+    //     }
+
+    //     iteracion++;
+
+    // }
 
     return 0;
 }

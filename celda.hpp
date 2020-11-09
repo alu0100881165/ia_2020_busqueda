@@ -16,9 +16,9 @@ class Celda_t {
         pair<int, int> padre_;
         vector<pair<int, int>> movimientos_;   // Los movimientos van en este orden: izquierda, arriba, derecha, abajo
 
-        int valorF; // Valor total acumulado
-        int valorG; // Valor del movimiento                     f = g + h
-        int valorH; // Valor heurístico del movimiento
+        int valorF_; // Valor total acumulado
+        int valorG_; // Valor del movimiento                     f = g + h
+        int valorH_; // Valor heurístico del movimiento
 
         void destroyCelda(void);    // Misma idea que el destroyMap
 
@@ -40,8 +40,10 @@ class Celda_t {
         void setMovimientos(vector<pair<int, int>> movimientos);   // Set del vector de movimientos de la celda
         void setPadre(pair<int, int> padre);
         void setF(void);          // setter F
+        void setF(int valorF);
         void setG(int g);
         void setH(int h);
+        
         void resetCost(void);
 
         ostream& write(ostream& os);    // Método para imprimir por pantalla la celda

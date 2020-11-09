@@ -1,3 +1,49 @@
+Introducir el nodoInicio en la openList con f(nodoInicio) = h(nodoInicio)   (Inicialización)
+
+Mientras la openList no esté vacía {
+    Sacar de la openList el nodoActual con menor f(nodoInicio)
+        f(nodoActual) = g(nodoActual) + h(nodoActual)
+    if nodoActual es el nodoFinal, encontramos la solución; break
+    
+    Meter en a closedList el nodoActual
+    Generamos cada nodoSucesor del nodoActual{
+        if nodoSucesor no está en la closedList{
+            if nodoSucesor está en la openList{
+                if g(nodoSucesor) > (g(nodoActual) + costeG){
+                    Actualizamos el coste g(nodoSucesor)
+                    Actualizamos nodoPadre(nodoSucesor)
+                }
+            }
+            else {
+                Introducimos el nodo en la openList
+                Actualizamos el coste g(nodoSucesor)
+                Actualizamos nodoPadre(nodoSucesor)
+            }
+            Actualizamos el valor h(nodoSucesor)
+            Actualizamos el valor f(nodoSucesor)
+        }
+    }
+}
+
+if()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #####################################       ############
 #&·····=····························#       #···#····#=#
 #···································#       #···#·##···#

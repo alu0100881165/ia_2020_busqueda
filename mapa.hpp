@@ -56,4 +56,5 @@ class Mapa_t
                                                             // pero queda bien, y llama al método write de la celda que hace lo mismo.
 
         void resetMapa(pair<int, int> coche);
+        void resetMapaFull(void);
 };

@@ -219,3 +219,20 @@ void Mapa_t::resetMapa(pair<int, int> coche)
 
     getCeldaPos(coche).setValor('&');
 }
+
+void Mapa_t::resetMapaFull(void)
+{
+    pair<int, int> aux, dummy = {0, 0};
+
+    for(int i = 1; i < (getN() - 1); i++)
+    {
+        for(int j = 1; j < (getM() - 1); j++)
+        {
+            aux.first = i;
+            aux.second = j;
+            getCeldaPos(aux).setPadre(dummy);
+            getCeldaPos(aux).resetCost();
+            getCeldaPos(aux).setValor('.');
+        }
+    }
+}

@@ -62,6 +62,41 @@ pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
     return v;
 }
 
+void crearAleatorio(Mapa_t& mapa, Coche_t& coche)
+{
+    int tam = ((mapa.getN() * mapa.getM()) * 2) / 100;      // Ejemplo: 10x10 10% tam = 10
+
+    srand(time(NULL)); // Caso random = NULL
+
+    pair<int, int> v = {1, 1};
+    pair<int, int > d, o;
+
+    for(int i = 0; i < tam; i++)
+    {   
+        do
+        {
+            o.first = rand() % mapa.getN(); // caso random first
+            o.second = rand() % mapa.getM(); // caso random second
+        }
+        while (o.first <= 0 || o.second <= 0 || o.first >= (mapa.getN() - 1) || o.second >= (mapa.getM() - 1) || v == d);
+                
+        if(i == 0)
+        {
+            v = o;
+            coche.setPosicion(v);
+        }
+        else
+        {
+            d = o;
+        }
+    }
+    // cout << "Valor de coche: (" << v.first << ", " << v.second << ')' << endl;
+    // cout << "Valor de coche: (" << d.first << ", " << d.second << ')' << endl;
+    mapa.rellenarCoche(v, d);
+    // mapa.write(cout);
+    // getchar();
+}
+
 pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int> v)
 {
     pair<int, int> d;
@@ -101,7 +136,6 @@ int main(void)
 
     // PARA TESTEAR LOS MAPAS
     ofstream outfile;
-    outfile.open("prueba3.txt", ofstream::out | ofstream::trunc);
 
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
     do
@@ -109,7 +143,7 @@ int main(void)
         cout << "\n\E[32m¿Desea leer desde fichero? \e[95m\e[1m(0 NO, 1 SI)\e[0m\e[95m: \E[97m"; // Si el usuario presiona 1 lee desde fichero, no está hecho de momento la opción manual
         cin >> opcion;
         
-        system("clear");
+        // system("clear");
     }
     while (opcion !=0 && opcion != 1);
     
@@ -129,7 +163,7 @@ int main(void)
                 ficheroEntrada >> d.first >> d.second;
 
                 coche.setPosicion(v);
-                mapa.setDestino(d);
+                // mapa.setDestino(d);
 
                 mapa.setMapa(filas, columnas, ficheroEntrada, v, d);  // Se pasa al método setMapa lo necesario para construir todo el mapa sin punto de salida ni de llegada
             }
@@ -155,6 +189,7 @@ int main(void)
 
     else    // Opción manual
     {      
+        // outfile.open("prueba.txt", ofstream::out | ofstream::trunc);
         cout << endl << "\E[93mDIMENSIONES DEL TABLERO.\E[93m" << endl;       // cian negrita    
 
         do
@@ -189,7 +224,7 @@ int main(void)
         if(opcion) //  manual obstaculos
         { 
             
-            system("clear");
+            // system("clear");
 
             cout << endl << "\E[93mDETERMINACIÓN DE OBSTÁCULOS.\E[93m"<<endl;
 
@@ -204,7 +239,7 @@ int main(void)
                 if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d && '#' != mapa.getMapa()[mapa.getMapaPos(o.first, o.second)].getValor())   // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
                 {                                                                                                           // Arriba, Izquierda, abajo y derecha, además de que no esté en la posición del vehículo ni del destino.
                     mapa.rellenarManual(o.first, o.second, '#');  
-                    system("clear");                                                                                        // Guarda en la posición pair 'o' un obstáculo, '#'.                                                                           
+                    // system("clear");                                                                                        // Guarda en la posición pair 'o' un obstáculo, '#'.                                                                           
                 }
 
                 else
@@ -274,34 +309,45 @@ int main(void)
         }
     }
 
-    system("clear");
+    // system("clear");
 
-    /*
-    outfile << filas << ' ' << columnas << endl;
-    outfile << v.first << ' ' << v.second << endl;
-    outfile << d.first << ' ' << d.second << endl;
-
-    for(int i = 1; i < (filas - 1); i++)
-    {
-        for(int j = 1; j < (columnas - 1); j++)
-        {
-            if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
-                outfile << i << ' ' << j << endl;
-        }
-    }
-    outfile.close();
-
-     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.    
+    mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.    
 
     vector<pair<int, int>> resultado;
 
     auto t1 = chrono::high_resolution_clock::now();
+    auto t2 = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
 
     cout << "\E[93m\e[7mA* con heurística Manhattan.\E[93m\e[0m" << endl << endl;
     if(coche.aStar(mapa, 1))
     {
         cout << "\E[95mExiste el camino.\E[95m" << endl;
-        opcion = 0;
+        t2 = chrono::high_resolution_clock::now();
+        opcion = 1;
+        
+
+        duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
+
+        mapa.write(cout);  
+
+        cout << "\E[97m--> La función Manhattan toma: " << "\E[94m" << duration << " milisegundos.\E[94m" << endl;
+        cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() <<".\E[94m"<< endl;
+        cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
+
+        // outfile << filas << ' ' << columnas << endl;
+        // outfile << coche.getPosicion().first << ' ' << coche.getPosicion().second << endl;
+        // outfile << mapa.getDestino().first << ' ' << mapa.getDestino()..second << endl;
+
+        // for(int i = 1; i < (filas - 1); i++)
+        // {
+        //     for(int j = 1; j < (columnas - 1); j++)
+        //     {
+        //         if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
+        //             outfile << i << ' ' << j << endl;
+        //     }
+        // }
+        // outfile.close();
     }
     else
     {
@@ -309,11 +355,9 @@ int main(void)
         opcion = 0;
     }
 
-    auto t2 = chrono::high_resolution_clock::now(); 
+     
 
-    mapa.write(cout);  
-
-    auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
+    
 
 
     // cout << "Reset mapa." << endl;
@@ -321,118 +365,125 @@ int main(void)
     // mapa.write(cout);
     // cout << "Reset done." << endl;
 
-
-
-    cout << "\E[97m--> La función Manhattan toma: " << "\E[94m" << duration << " milisegundos.\E[94m" << endl;
-    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() <<".\E[94m"<< endl;
-    cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
-
     t1 = chrono::high_resolution_clock::now();
 
     cout << endl << "\E[93m\e[7mA* con heurística Euclídea.\E[93m\e[0m" << endl << endl;
 
-    if(coche.aStar(mapa, 0) && opcion)
+    if(coche.aStar(mapa, 0))
     {
         cout << "\E[95mExiste el camino.\E[95m" << endl;
+        t2 = chrono::high_resolution_clock::now(); 
+        mapa.write(cout); 
+        duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
+
+        cout << "\E[97m--> La función Euclídea toma: " << "\E[94m" << duration << " milisegundos.\E[94m" << endl;
+        cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() << ".\E[94m"<< endl;
+        cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
     }
     else
     {
         cout << "\E[31mNo existe solución para este caso expuesto.\E[31m" << endl;
     }
 
-    t2 = chrono::high_resolution_clock::now(); 
+     
 
-    mapa.write(cout);  
+    
 
-    duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
+    // Imprimir el valor de la posición del coche y destino, reset de padres.
 
-    cout << "\E[97m--> La función Euclídea toma: " << "\E[94m" << duration << " milisegundos.\E[94m" << endl;
-    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() << ".\E[94m"<< endl;
-    cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
+    /******************* MODO CREAR MAPAS *******************/
 
-    // Imprimir el valor de la posición del coche y destino, reset de padres.*/
+    // pair<int, int> fichero;
+    // int iteracion = 1;
 
+    // while(1)
+    // {
+    //     outfile.open("prueba.txt", ofstream::out | ofstream::trunc);
+    //     cout << "Iteración: " << iteracion << endl;
+    //     mapa.resetMapaFull();
+    //     crearAleatorio(mapa, coche);
+    //     for(int i = 1; i < (filas - 1); i++)
+    //     {
+    //         for(int j = 1; j < (columnas - 1); j++)
+    //         {
+    //             fichero.first = i;
+    //             fichero.second = j;
+    //             if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
+    //                 mapa.getCeldaPos(fichero).setValor('.');
+    //         }
+    //     }
 
-    pair<int, int> fichero;
-    int iteracion = 1;
+    //     int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
 
-    while(1)
-    {
-        cout << "Iteración: " << iteracion << endl;
-        mapa.resetMapa(v);
-        for(int i = 1; i < (filas - 1); i++)
-        {
-            for(int j = 1; j < (columnas - 1); j++)
-            {
-                fichero.first = i;
-                fichero.second = j;
-                if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
-                    mapa.getCeldaPos(fichero).setValor('.');
-            }
-        }
+    //     srand(time(NULL)); // Caso random = NULL
 
-        int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
-
-        srand(time(NULL)); // Caso random = NULL
-
-        for(int i = 0; i < tam; i++)
-        {   
-            do
-            {
-                o.first = rand() % filas; // caso random first
-                o.second = rand() % filas; // caso random second
-            }
-            while (o.first <= 0 || o.second <= 0 || o.first >= (filas - 1) || o.second >= (columnas - 1) || o == v || o == d);
+    //     for(int i = 0; i < tam; i++)
+    //     {   
+    //         do
+    //         {
+    //             o.first = rand() % filas; // caso random first
+    //             o.second = rand() % filas; // caso random second
+    //         }
+    //         while (o.first <= 0 || o.second <= 0 || o.first >= (filas - 1) || o.second >= (columnas - 1) || o == coche.getPosicion() || o == mapa.getDestino());
                     
-            mapa.rellenarManual(o.first, o.second, '#');
-        }
+    //         mapa.rellenarManual(o.first, o.second, '#');
+    //     }
 
-        for(int i = 1; i < (filas - 1); i++)       
-        {
-            for (int j = 1; j < (columnas - 1); j++)
-            {
-                if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '#')
-                {
-                    mapa.rellenarMovimientos(i, j);     
-                }
-            }
-        }
+    //     for(int i = 1; i < (filas - 1); i++)       
+    //     {
+    //         for (int j = 1; j < (columnas - 1); j++)
+    //         {
+    //             if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '#')
+    //             {
+    //                 mapa.rellenarMovimientos(i, j);     
+    //             }
+    //         }
+    //     }
 
-        outfile << filas << ' ' << columnas << endl;
-        outfile << v.first << ' ' << v.second << endl;
-        outfile << d.first << ' ' << d.second << endl;
+    //     // mapa.resetMapa(coche.getPosicion());
 
-        for(int i = 1; i < (filas - 1); i++)
-        {
-            for(int j = 1; j < (columnas - 1); j++)
-            {
-                if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
-                    outfile << i << ' ' << j << endl;
-            }
-        }
-        outfile.close();
+    //     cout << "Mapa first" << endl;
+    //     mapa.write(cout);
 
-        if(coche.aStar(mapa, 1))
-        {
-            opcion = 1;
-        }
-        else
-        {
-            opcion = 0;
-        }
+    //     if(coche.aStar(mapa, 1))
+    //     {
+    //         opcion = 1;
+    //         outfile << filas << ' ' << columnas << endl;
+    //         outfile << coche.getPosicion().first << ' ' << coche.getPosicion().second << endl;
+    //         outfile << mapa.getDestino().first << ' ' << mapa.getDestino().second << endl;
+
+    //         for(int i = 1; i < (filas - 1); i++)
+    //         {
+    //             for(int j = 1; j < (columnas - 1); j++)
+    //             {
+    //                 if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
+    //                     outfile << i << ' ' << j << endl;
+    //             }
+    //         }
+    //     }
+    //     else
+    //     {
+    //         opcion = 0;
+    //     }
+
+    //     cout << "Mapa Manhattan" << endl;
+    //     mapa.write(cout);
 
 
-        mapa.resetMapa(v);
+    //     mapa.resetMapa(coche.getPosicion());
 
 
-        if(coche.aStar(mapa, 0) && opcion)
-        {
-            return 0;
-        }
+    //     if(coche.aStar(mapa, 0))
+    //     {
+    //         return 0;
+    //     }
+    //     cout << "Mapa Euclidean" << endl;
+    //     mapa.write(cout);
 
-        iteracion++;
-
-    }
+    //     iteracion++;
+    //     getchar();
+    // }
+    // outfile.close();
 
     return 0;
 }

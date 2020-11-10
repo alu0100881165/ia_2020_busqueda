@@ -89,6 +89,41 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
     return d;
 }
 
+void crearAleatorio(Mapa_t& mapa, Coche_t& coche)
+{
+    int tam = ((mapa.getN() * mapa.getM()) * 2) / 100;      // Ejemplo: 10x10 10% tam = 10
+
+    srand(time(NULL)); // Caso random = NULL
+
+    pair<int, int> v = {1, 1};
+    pair<int, int > d, o;
+
+    for(int i = 0; i < tam; i++)
+    {   
+        do
+        {
+            o.first = rand() % mapa.getN(); // caso random first
+            o.second = rand() % mapa.getM(); // caso random second
+        }
+        while (o.first <= 0 || o.second <= 0 || o.first >= (mapa.getN() - 1) || o.second >= (mapa.getM() - 1) || v == d);
+                
+        if(i == 0)
+        {
+            v = o;
+            coche.setPosicion(v);
+        }
+        else
+        {
+            d = o;
+        }
+    }
+    // cout << "Valor de coche: (" << v.first << ", " << v.second << ')' << endl;
+    // cout << "Valor de coche: (" << d.first << ", " << d.second << ')' << endl;
+    mapa.rellenarCoche(v, d);
+    // mapa.write(cout);
+    // getchar();
+}
+
 int main(void)
 {
     int opcion;
@@ -100,8 +135,8 @@ int main(void)
     Coche_t coche;              // Coche declarado a posición (0, 0)
 
     // PARA TESTEAR LOS MAPAS
-    ofstream outfile;
-    outfile.open("prueba3.txt", ofstream::out | ofstream::trunc);
+    // ofstream outfile;
+    // outfile.open("prueba2.txt", ofstream::out | ofstream::trunc);
 
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
     do
@@ -308,13 +343,15 @@ int main(void)
 
     auto t2 = chrono::high_resolution_clock::now(); 
 
-    mapa.write(cout);  
+    mapa.getCeldaPos(coche.getPosicion()).setValor('&');
+
+    mapa.write(cout);
 
     auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
 
 
     // cout << "Reset mapa." << endl;
-    mapa.resetMapa(v);
+    mapa.resetMapa(coche.getPosicion());
     // mapa.write(cout);
     // cout << mapa.getDestino().first << ", " << mapa.getDestino().second << endl;
     // cout << "Reset done." << endl;
@@ -353,11 +390,13 @@ int main(void)
 
     // pair<int, int> fichero;
     // int iteracion = 1;
+    
 
     // while(1)
     // {
     //     cout << "Iteración: " << iteracion << endl;
-    //     mapa.resetMapa(v);
+    //     crearAleatorio(mapa, coche);
+    //     mapa.resetMapa(coche.getPosicion());
     //     for(int i = 1; i < (filas - 1); i++)
     //     {
     //         for(int j = 1; j < (columnas - 1); j++)
@@ -396,23 +435,22 @@ int main(void)
     //         }
     //     }
 
-    //     outfile << filas << ' ' << columnas << endl;
-    //     outfile << v.first << ' ' << v.second << endl;
-    //     outfile << d.first << ' ' << d.second << endl;
-
-    //     for(int i = 1; i < (filas - 1); i++)
-    //     {
-    //         for(int j = 1; j < (columnas - 1); j++)
-    //         {
-    //             if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
-    //                 outfile << i << ' ' << j << endl;
-    //         }
-    //     }
-    //     outfile.close();
-
     //     if(coche.aStar(mapa, 1))
     //     {
     //         opcion = 1;
+    //         outfile << filas << ' ' << columnas << endl;
+    //         outfile << coche.getPosicion().first << ' ' << coche.getPosicion().second << endl;
+    //         outfile << mapa.getDestino().first << ' ' << mapa.getDestino().second << endl;
+
+    //         for(int i = 1; i < (filas - 1); i++)
+    //         {
+    //             for(int j = 1; j < (columnas - 1); j++)
+    //             {
+    //                 if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
+    //                     outfile << i << ' ' << j << endl;
+    //             }
+    //         }
+    //         outfile.close();
     //     }
     //     else
     //     {
@@ -420,7 +458,7 @@ int main(void)
     //     }
 
 
-    //     mapa.resetMapa(v);
+    //     mapa.resetMapa(coche.getPosicion());
 
 
     //     if(coche.aStar(mapa, 0) && opcion)

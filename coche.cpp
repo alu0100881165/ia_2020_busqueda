@@ -286,6 +286,7 @@ bool Coche_t::aStar(Mapa_t& mapa, bool heur)
                 // cout << "Bucle" << endl;
                 // getchar();
             }
+            mapa.getCeldaPos(posicion_).setValor('&');
             setAppendCamino(posicion_);
             return 1;
         }

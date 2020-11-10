@@ -97,8 +97,10 @@ void crearAleatorio(Mapa_t& mapa, Coche_t& coche)
 
     for(int i = 0; i < tam; i++)
     {   
+        cout << "For" << endl;
         do
         {
+            cout << "While" << endl;
             o.first = rand() % mapa.getN(); // caso random first
             o.second = rand() % mapa.getM(); // caso random second
         }
@@ -178,7 +180,7 @@ int main(void)
 
     // PARA TESTEAR LOS MAPAS
     // ofstream outfile;
-    // outfile.open("prueba2.txt", ofstream::out | ofstream::trunc);
+    // outfile.open("prueba.txt", ofstream::out | ofstream::trunc);
 
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
     do
@@ -388,8 +390,6 @@ int main(void)
     // while(1)
     // {
     //     cout << "Iteración: " << iteracion << endl;
-    //     crearAleatorio(mapa, coche);
-    //     mapa.resetMapa(coche.getPosicion());
     //     for(int i = 1; i < (filas - 1); i++)
     //     {
     //         for(int j = 1; j < (columnas - 1); j++)
@@ -400,6 +400,15 @@ int main(void)
     //                 mapa.getCeldaPos(fichero).setValor('.');
     //         }
     //     }
+    //     cout << "Después reset" << endl;
+        
+    //     crearAleatorio(mapa, coche);
+    //     cout << "Despues alatorio coche y destino" << endl;
+
+    //     mapa.resetMapa(coche.getPosicion());
+    //     cout << "Después resetmapa" << endl;
+        
+        
 
     //     int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
 
@@ -416,6 +425,7 @@ int main(void)
                     
     //         mapa.rellenarManual(o.first, o.second, '#');
     //     }
+    //     cout << "Después obstáculos" << endl;
 
     //     for(int i = 1; i < (filas - 1); i++)       
     //     {
@@ -427,6 +437,8 @@ int main(void)
     //             }
     //         }
     //     }
+
+    //     cout << "Antes del A*" << endl;
 
     //     if(coche.aStar(mapa, 1))
     //     {

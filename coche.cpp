@@ -341,7 +341,7 @@ bool Coche_t::aStar(Mapa_t& mapa, bool heur)
     {
         // No hay un camino al destino
         terminado = true;
-        cout << "El elegido es el destino." << endl;
+        // cout << "El elegido es el destino." << endl;
         cout << endl;
         return 1;
     }

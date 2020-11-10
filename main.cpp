@@ -23,16 +23,15 @@
 
 bool casosInt(int& valor)   // Cuando haces una entrada revisa la entrada
 {
-    cin >> valor;
-    bool casos = cin.good(); // Devuelve 0 si la secuencia no existe 
-    if (!casos)
+    if(!(cin >> valor))
     {
         cin.clear();    // Limpiamos
-        cin.ignore();   // Eliminamos el contenido
+        cin.ignore(1000, '\n');   // Eliminamos el contenido
         cout << endl << "\E[31mLa respuesta no ha sido un número\E[39m" << endl;
-    }
+        return 1;
+    }    
 
-    return !casos;
+    return 0;
 }
 
 pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
@@ -334,7 +333,7 @@ int main(void)
                 {
                     if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '#')
                     {
-                        mapa.rellenarMovimientos(i, j);     
+                        mapa.rellenarMovimientos(i, j);
                     }
                 }
             }

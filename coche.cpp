@@ -140,7 +140,7 @@ ostream& Coche_t::write(ostream& os)
 //                 {
 //                     // getchar();
 //                     // mapa.write(cout);
-//                     cout << "El elegido es el destino." << endl;
+// //                     cout << "El elegido es el destino." << endl;
 //                     // Encontramos el camino
 //                     terminado = true;
 
@@ -267,7 +267,7 @@ bool Coche_t::aStar(Mapa_t& mapa, bool heur)
         if(elegido == mapa.getDestino())
         {
             // mapa.write(cout);
-            cout << "El elegido es el destino." << endl;
+            // cout << "El elegido es el destino." << endl;
             // Encontramos el camino
             terminado = true;
 

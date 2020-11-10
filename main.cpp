@@ -27,11 +27,9 @@ bool casosInt(int& valor)   // Cuando haces una entrada revisa la entrada
     bool casos = cin.good(); // Devuelve 0 si la secuencia no existe 
     if (!casos)
     {
-        //system("clear");
-
         cin.clear();    // Limpiamos
         cin.ignore();   // Eliminamos el contenido
-        cout << endl << "\E[31mLa respuesta no ha sido un numero\E[39m" << endl;
+        cout << endl << "\E[31mLa respuesta no ha sido un número\E[39m" << endl;
     }
 
     return !casos;
@@ -117,11 +115,56 @@ void crearAleatorio(Mapa_t& mapa, Coche_t& coche)
             d = o;
         }
     }
-    // cout << "Valor de coche: (" << v.first << ", " << v.second << ')' << endl;
-    // cout << "Valor de coche: (" << d.first << ", " << d.second << ')' << endl;
+
     mapa.rellenarCoche(v, d);
-    // mapa.write(cout);
-    // getchar();
+}
+
+bool algoritmoBusqueda(Mapa_t& mapa, Coche_t& coche, int heur)
+{
+    bool heuristica = false;
+    string heuristicaString;
+
+    if(heur == 1)
+    {
+        heuristica = true;
+        heuristicaString = "Manhattan"; 
+    }
+    else
+    {
+        heuristica = false;
+        heuristicaString = "Euclídea";
+    }
+
+    cout << "\E[96m\e[7mA* con heurística " << heuristicaString << ".\E[96m\e[0m\e[0m" << endl << endl;
+
+    auto t1 = chrono::high_resolution_clock::now();
+    
+    if(coche.aStar(mapa, heuristica))
+    {
+        cout << "\E[95mExiste el camino.\E[95m" << endl;
+
+        auto t2 = chrono::high_resolution_clock::now();
+
+        mapa.getCeldaPos(coche.getPosicion()).setValor('&');
+
+        mapa.write(cout);
+
+        auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
+
+        mapa.resetMapa(coche.getPosicion());
+
+        cout << "\E[97m--> La función " << "\E[94m" << heuristicaString << "\E[97m toma: " << "\E[93m" << duration << " milisegundos.\E[93m" << endl;
+        cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[93m" << coche.getCamino().size() <<".\E[93m" << endl;
+        cout << "\E[97m--> Los nodos generados son: " << "\E[93m" << coche.getContNodosGenerados() << ".\E[93m" << endl << endl;
+
+        return 0;
+    }
+    else
+    {
+        cout << "\E[31mNo existe solución para este caso expuesto.\E[31m" << endl;
+
+        return 1;
+    }
 }
 
 int main(void)
@@ -175,56 +218,47 @@ int main(void)
         }    
         while(ficheroEntrada.is_open() != 1);
     }
-    
-    // cout << endl<<"\E[43mFUNCIÓN HEURÍSTICA.\E[49m"<<endl;
-    
-    // while(true)
-    // {    
-    //     do{
-    //         cout << endl <<"1.-Distancia de Manhattan.";
-    //         cout << endl <<"2.-Distancia de Euclidean.";
-    //         cout << endl <<"\E[31mIndique con un valor numérico la función heurística que desea emplear (1|2|3): \E[97m";
-    //     }
-    //     while (casosInt(heuristica))
-    // }
-
     else    // Opción manual
     {      
         cout << endl << "\E[93mDIMENSIONES DEL TABLERO.\E[93m" << endl;       // cian negrita    
 
         do
         {
-            cout << endl << "\E[94m- Introduzca el número de \E[97mfilas\E[94m de la tabla \e[92m\e[4m(>= 4)\e[0m: \E[97m";        // filas -> naranja
+            cout << endl << "\E[94m- Introduzca el número de \E[97mfilas\E[94m de la tabla \e[92m\e[4m(>= 4)\e[0m: \E[97m";        
         } 
         while (casosInt(filas) || filas < 4);
+        
 
         do
         {
-            cout << "\E[94m- Introduzca el número de \E[97mcolumnas\E[94m de la tabla \e[92m\e[4m(>= 4)\e[0m: \E[97m";      // columnas -> naranja
+            cout << "\E[94m- Introduzca el número de \E[97mcolumnas\E[94m de la tabla \e[92m\e[4m(>= 4)\e[0m: \E[97m";      
         } 
-        while (casosInt(columnas) || columnas < 4);
+        while (casosInt(columnas) || columnas < 4 || columnas != filas);
+
+        system("clear");
 
         mapa.setN(filas);
         mapa.setM(columnas);
         mapa.setMapa(filas, columnas);
 
-        //bool opcion2;
         do
         {
-            cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[95m\e[1m(0 Aleatorio, 1 Manual)\e[95m\e[0m: \E[97m";      // columnas -> naranja
+            cout << endl << "\E[32m¿Desea introducir manualmente los obstáculos o generarlos aleatoriamente? \e[95m\e[1m(0 Aleatorio, 1 Manual)\e[95m\e[0m: \E[97m";     
             cin >> opcion;
         }
         while (opcion !=0 && opcion != 1);
+
+        system("clear");
 
         v = crearVehiculo(mapa, filas, columnas);
         d = crearDestino(mapa, filas, columnas, v);
         coche.setPosicion(v);
         mapa.setDestino(d);
+
+        system("clear");
         
         if(opcion) //  manual obstaculos
-        { 
-            
-            system("clear");
+        {
 
             cout << endl << "\E[93mDETERMINACIÓN DE OBSTÁCULOS.\E[93m"<<endl;
 
@@ -236,12 +270,12 @@ int main(void)
                 cout  << "\E[94m- Introduzca la posición \E[97mj\E[94m de un obstáculo: \E[97m";      
                 cin >> o.second;
                                
-                if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d && '#' != mapa.getMapa()[mapa.getMapaPos(o.first, o.second)].getValor())   // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
-                {                                                                                                           // Arriba, Izquierda, abajo y derecha, además de que no esté en la posición del vehículo ni del destino.
+                if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && o != v && o != d 
+                && '#' != mapa.getMapa()[mapa.getMapaPos(o.first, o.second)].getValor())           // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
+                {                                                                                  // Arriba, Izquierda, abajo y derecha, además de que no esté en la posición del vehículo ni del destino.
                     mapa.rellenarManual(o.first, o.second, '#');  
-                    system("clear");                                                                                        // Guarda en la posición pair 'o' un obstáculo, '#'.                                                                           
+                    system("clear");                                                               // Guarda en la posición pair 'o' un obstáculo, '#'.                                                                           
                 }
-
                 else
                 {
                     cout << endl << "\E[31m--> Error de posición: Introduzca el obstáculo en una posición válida. \E[31m" << endl;
@@ -276,8 +310,7 @@ int main(void)
                     cout << endl << "\E[31m--> Error: Introduzca un porcentaje dentro del rango \E[97m0-100\E[31m.\E[39m" << endl;  // Error rango
                 }
                 
-            } while (porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100);  // Hasta < 0 o > 100
-            
+            } while (porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100);  // Hasta < 0 o > 100            
 
             int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
 
@@ -301,7 +334,6 @@ int main(void)
                 {
                     if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() != '#')
                     {
-                        //cout << "Posición: (" << i << ", " << j << ')' << endl;
                         mapa.rellenarMovimientos(i, j);     
                     }
                 }
@@ -311,81 +343,43 @@ int main(void)
 
     system("clear");
 
-    // outfile << filas << ' ' << columnas << endl;
-    // outfile << v.first << ' ' << v.second << endl;
-    // outfile << d.first << ' ' << d.second << endl;
+    int heuristica = 0;
 
-    // for(int i = 1; i < (filas - 1); i++)
-    // {
-    //     for(int j = 1; j < (columnas - 1); j++)
-    //     {
-    //         if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
-    //             outfile << i << ' ' << j << endl;
-    //     }
-    // }
-    // outfile.close();
+    cout << endl<<"\E[93mFUNCIÓN HEURÍSTICA.\E[93m"<<endl;
 
-     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.    
+    do{
+        cout << endl <<"\E[94m1.-Distancia de \E[94m\E[97mManhattan.\E[0m" << endl <<"\E[94m2.-Distancia de \E[94m\E[97mEuclidean.\E[0m" << endl;
+        cout << "\E[94m3.-Ambas\E[94m" << endl << endl <<"\E[92mIndique con un valor numérico la \E[97mfunción heurística\E[0m \E[92mque desea emplear \e[95m(1|2|3): \E[97m";
+    }
+    while ((casosInt(heuristica)) && (heuristica == 1 || heuristica == 2 || heuristica == 3));
+
+    // system("clear");
+
+    mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.    
 
     vector<pair<int, int>> resultado;
+    bool res;
 
-    auto t1 = chrono::high_resolution_clock::now();
-
-    cout << "\E[93m\e[7mA* con heurística Manhattan.\E[93m\e[0m" << endl << endl;
-    if(coche.aStar(mapa, 1))
+    if(heuristica == 3) // Ambas (Las dos)
     {
-        cout << "\E[95mExiste el camino.\E[95m" << endl;
+        if(!algoritmoBusqueda(mapa, coche, 1)) 
+        {
+            res == !algoritmoBusqueda(mapa, coche, 0);
+        }
     }
+    else if(heuristica == 2)
+    {
+        res = !algoritmoBusqueda(mapa, coche, 0);
+    }
+    else if(heuristica == 1)
+    {
+        res = !algoritmoBusqueda(mapa, coche, 1);
+    }
+
+    if(res)
+        return 0;
     else
-    {
-        cout << "\E[31mNo existe solución para este caso expuesto.\E[31m" << endl;
-    }
-
-    auto t2 = chrono::high_resolution_clock::now(); 
-
-    mapa.getCeldaPos(coche.getPosicion()).setValor('&');
-
-    mapa.write(cout);
-
-    auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
-
-
-    // cout << "Reset mapa." << endl;
-    mapa.resetMapa(coche.getPosicion());
-    // mapa.write(cout);
-    // cout << mapa.getDestino().first << ", " << mapa.getDestino().second << endl;
-    // cout << "Reset done." << endl;
-
-
-
-    cout << "\E[97m--> La función Manhattan toma: " << "\E[94m" << duration << " milisegundos.\E[94m" << endl;
-    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() <<".\E[94m"<< endl;
-    cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
-
-    t1 = chrono::high_resolution_clock::now();
-
-    cout << endl << "\E[93m\e[7mA* con heurística Euclídea.\E[93m\e[0m" << endl << endl;
-
-    if(coche.aStar(mapa, 0))
-    {
-        cout << "\E[95mExiste el camino.\E[95m" << endl;
-    }
-    else
-    {
-        cout << "\E[31mNo existe solución para este caso expuesto.\E[31m" << endl;
-    }
-
-    t2 = chrono::high_resolution_clock::now(); 
-
-    mapa.write(cout);  
-
-    duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
-
-    cout << "\E[97m--> La función Euclídea toma: " << "\E[94m" << duration << " milisegundos.\E[94m" << endl;
-    cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[94m" << coche.getCamino().size() << ".\E[94m"<< endl;
-    cout << "\E[97m--> Los nodos generados son: " << "\E[94m" << coche.getContNodosGenerados() << ".\E[94m"<< endl << endl;
-
-    // Imprimir el valor de la posición del coche y destino, reset de padres.
+        return 1;
 
 
     // pair<int, int> fichero;
@@ -470,5 +464,5 @@ int main(void)
 
     // }
 
-    return 0;
+    return 1;
 }

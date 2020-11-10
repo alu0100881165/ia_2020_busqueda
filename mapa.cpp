@@ -112,23 +112,23 @@ void Mapa_t::rellenarCoche(pair<int, int> coche, pair<int, int> destino)
     setDestino(destino);
 }
 
-fstream& Mapa_t::rellenarObstaculos(fstream& fichero)   // Rellena al mapa con los obstáculos
+fstream& Mapa_t::rellenarObstaculos(fstream& fichero)               // Rellena al mapa con los obstáculos
 {
-    pair<int, int> aux; // Son dos enteros juntos, por ejemplo <1, 1>
-    while(!fichero.eof())   // Lee el fichero hasta el final
+    pair<int, int> aux;                                             // Son dos enteros juntos, por ejemplo <1, 1>
+    while(!fichero.eof())                                           // Lee el fichero hasta el final
     {
-        fichero >> aux.first >> aux.second;     // Lee las coordenadas como un punto en una gráfica, es decir (1,1)
+        fichero >> aux.first >> aux.second;                         // Lee las coordenadas como un punto en una gráfica, es decir (1,1)
 
         mapa_[getMapaPos(aux.first, aux.second)].setValor('#');     // Asigna el símbolo a los obstáculos
     }
 
-    for(int i = 1; i < (getN() - 1); i++)       // Los dos for recorren el mapa evitando los bordes
+    for(int i = 1; i < (getN() - 1); i++)                           // Los dos for recorren el mapa evitando los bordes
     {
         for (int j = 1; j < (getM() - 1); j++)
         {
             if(mapa_[getMapaPos(i, j)].getValor() != '#')
             {
-                rellenarMovimientos(i, j);      // Se rellenan los movimientos posibles para cada celda
+                rellenarMovimientos(i, j);                          // Se rellenan los movimientos posibles para cada celda
             }
         }
     }
@@ -141,7 +141,7 @@ void Mapa_t::rellenarManual(int n, int m, char c)
     mapa_[getMapaPos(n, m)].setValor(c);
 }
 
-void Mapa_t::rellenarMovimientos(int i, int j)      // Comprueba los 4 posibles movimientos y les pone un 1 en caso de no poder realizarlos
+void Mapa_t::rellenarMovimientos(int i, int j)              // Comprueba los 4 posibles movimientos y les pone un 1 en caso de no poder realizarlos
 {
     vector<pair<int, int>> aux;
     pair<int, int> dummy;
@@ -183,11 +183,9 @@ void Mapa_t::rellenarMovimientos(int i, int j)      // Comprueba los 4 posibles 
 
 ostream& Mapa_t::write(ostream& os)
 {
-    //cout << "Número de filas: " << getN() << " Número de columnas: " << getM() << endl;
-    //cout << "Mapa: " << endl;
     cout << endl << "\E[33mImprimiendo...\E[33m" << endl << endl;
 
-    for(int i = 0; i < getN(); i++)     // Recorre el mapa y va imprimiendo las celdas de una en una
+    for(int i = 0; i < getN(); i++)                         // Recorre el mapa y va imprimiendo las celdas de una en una
     {
         for(int j = 0; j < getM(); j++)
         {

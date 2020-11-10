@@ -99,7 +99,7 @@ void Celda_t::resetCost(void)
 
 ostream& Celda_t::write(ostream& os)    // Método para imprimir por pantalla la celda
 {
-    if (valor_ == '%')          // amarillo(provisional)
+    if (valor_ == '%')          // amarillo
     {
         os << "\E[33m" << setw(2) << valor_ << "\E[33m";
     }

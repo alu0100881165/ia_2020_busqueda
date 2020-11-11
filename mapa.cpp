@@ -136,7 +136,7 @@ fstream& Mapa_t::rellenarObstaculos(fstream& fichero)               // Rellena a
     return fichero;
 }
 
-void Mapa_t::rellenarManual(int n, int m, char c)
+void Mapa_t::rellenarManual(int n, int m, char c)           // Relenar de forma Manual
 {
     mapa_[getMapaPos(n, m)].setValor(c);
 }

@@ -179,8 +179,8 @@ int main(void)
     Coche_t coche;              // Coche declarado a posición (0, 0)
 
     // PARA TESTEAR LOS MAPAS
-    // ofstream outfile;
-    // outfile.open("prueba.txt", ofstream::out | ofstream::trunc);
+    ofstream outfile;
+    outfile.open("prueba.txt", ofstream::out | ofstream::trunc);
 
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
     do

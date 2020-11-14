@@ -1,19 +1,19 @@
-/* Universidad de La Laguna, Escuela Superior de Ingeniería y Tecnología.
-*  INTELIGENCIA ARTIFICIAL: **PRÁCTICA DE BÚSQUEDA**.
-*  Integrantes del grupo:
-*  - Daniel Nuez Wehbe
-*  - José Javier Díaz González
-*  - Ricardo Fariña Mesa 
-*
-*  Enunciado del problema:
-* 
-*      Un coche autónomo se puede suponer rectangular de dimensiones M x N 
-*   y constituido por celdas libres y ocupadas, donde el coche puede efectuar acciones 
-*   de movimiento, una cada vez, desde la casilla actual a una de las 4-vecinas 
-*   (Norte, Sur, Este u Oeste) que no se encuentre ocupada. Las casillas ocupadas 
-*   corresponden a obstáculos. Las casillas libres corresponden con celdas libres 
-*   de obstáculos.
-*/
+/** Universidad de La Laguna, Escuela Superior de Ingeniería y Tecnología.
+ *  INTELIGENCIA ARTIFICIAL: **PRÁCTICA DE BÚSQUEDA**.
+ *  Integrantes del grupo:
+ *  - Daniel Nuez Wehbe
+ *  - José Javier Díaz González
+ *  - Ricardo Fariña Mesa 
+ *
+ *  Enunciado del problema:
+ * 
+ *   Un coche autónomo se puede suponer rectangular de dimensiones M x N 
+ *   y constituido por celdas libres y ocupadas, donde el coche puede efectuar acciones 
+ *   de movimiento, una cada vez, desde la casilla actual a una de las 4-vecinas 
+ *   (Norte, Sur, Este u Oeste) que no se encuentre ocupada. Las casillas ocupadas 
+ *   corresponden a obstáculos. Las casillas libres corresponden con celdas libres 
+ *   de obstáculos.
+ **/
 
 #include "coche.hpp"
 
@@ -21,7 +21,7 @@
 #include <cstdlib>
 #include <chrono>
 
-bool casosInt(int& valor)   // Cuando haces una entrada revisa la entrada
+bool esValido(int& valor)   // Cuando haces una entrada revisa la entrada
 {
     if(!(cin >> valor))
     {
@@ -86,39 +86,44 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
     return d;
 }
 
-void crearAleatorio(Mapa_t& mapa, Coche_t& coche)
-{
-    int tam = ((mapa.getN() * mapa.getM()) * 2) / 100;      // Ejemplo: 10x10 10% tam = 10
+/**
+ * GENERACIÓN DE MAPAS ALEATORIOS
+ **/
 
-    srand(time(NULL)); // Caso random = NULL
+// void crearAleatorio(Mapa_t& mapa, Coche_t& coche)
+// {
+//     int tam = ((mapa.getN() * mapa.getM()) * 2) / 100;      // Ejemplo: 10x10 10% tam = 10
 
-    pair<int, int> v = {1, 1};
-    pair<int, int > d, o;
+//     srand(time(NULL)); // Caso random = NULL
 
-    for(int i = 0; i < tam; i++)
-    {   
-        cout << "For" << endl;
-        do
-        {
-            cout << "While" << endl;
-            o.first = rand() % mapa.getN(); // caso random first
-            o.second = rand() % mapa.getM(); // caso random second
-        }
-        while (o.first <= 0 || o.second <= 0 || o.first >= (mapa.getN() - 1) || o.second >= (mapa.getM() - 1) || v == d);
+//     pair<int, int> v = {1, 1};
+//     pair<int, int > d, o;
+//     int contador = 0; 
+
+//     for(int i = 0; i < tam; i++)
+//     {   
+//         do
+//         {
+//             contador++;
+            
+//             o.first = rand() % mapa.getN(); // caso random first
+//             o.second = rand() % mapa.getM(); // caso random second
+//         }
+//         while (o.first <= 0 || o.second <= 0 || o.first >= (mapa.getN() - 1) || o.second >= (mapa.getM() - 1) || v == d);
                 
-        if(i == 0)
-        {
-            v = o;
-            coche.setPosicion(v);
-        }
-        else
-        {
-            d = o;
-        }
-    }
+//         if(i == 0)
+//         {
+//             v = o;
+//             coche.setPosicion(v);
+//         }
+//         else
+//         {
+//             d = o;
+//         }
+//     }
 
-    mapa.rellenarCoche(v, d);
-}
+//     mapa.rellenarCoche(v, d);
+// }
 
 bool algoritmoBusqueda(Mapa_t& mapa, Coche_t& coche, int heur)
 {
@@ -148,7 +153,7 @@ bool algoritmoBusqueda(Mapa_t& mapa, Coche_t& coche, int heur)
 
         mapa.getCeldaPos(coche.getPosicion()).setValor('&');
 
-        mapa.write(cout);
+        // mapa.write(cout);
 
         auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
 
@@ -163,7 +168,6 @@ bool algoritmoBusqueda(Mapa_t& mapa, Coche_t& coche, int heur)
     else
     {
         cout << "\E[31mNo existe solución para este caso expuesto.\E[31m" << endl;
-
         return 1;
     }
 }
@@ -178,9 +182,11 @@ int main(void)
     Mapa_t mapa;                // Mapa vacío
     Coche_t coche;              // Coche declarado a posición (0, 0)
 
-    // PARA TESTEAR LOS MAPAS
-    ofstream outfile;
-    outfile.open("prueba.txt", ofstream::out | ofstream::trunc);
+    /**
+     * GENERACIÓN DE MAPAS ALEATORIOS
+     **/
+    // ofstream outfile;
+    // outfile.open("prueba.txt", ofstream::out | ofstream::trunc);
 
     cout << "\nPractica 1: INTELIGENCIA ARTIFICIAL. PRÁCTICA DE BÚSQUEDA.\n";
     do
@@ -227,14 +233,14 @@ int main(void)
         {
             cout << endl << "\E[94m- Introduzca el número de \E[97mfilas\E[94m de la tabla \e[92m\e[4m(>= 4)\e[0m: \E[97m";        
         } 
-        while (casosInt(filas) || filas < 4);
+        while (esValido(filas) || filas < 4);
         
 
         do
         {
             cout << "\E[94m- Introduzca el número de \E[97mcolumnas\E[94m de la tabla \e[92m\e[4m(>= 4)\e[0m: \E[97m";      
         } 
-        while (casosInt(columnas) || columnas < 4 || columnas != filas);
+        while (esValido(columnas) || columnas < 4 || columnas != filas);
 
         system("clear");
 
@@ -255,8 +261,6 @@ int main(void)
         d = crearDestino(mapa, filas, columnas, v);
         coche.setPosicion(v);
         mapa.setDestino(d);
-
-        system("clear");
         
         if(opcion) //  manual obstaculos
         {
@@ -304,7 +308,7 @@ int main(void)
                 {
                     cout << endl << "\E[94mIntroduza el \E[97mporcentaje\E[94m de obstaculos que desee: \E[97m";    // El usuario introduce un %
                 } 
-                while(casosInt(porcentajes_obstaculos));
+                while(esValido(porcentajes_obstaculos));
 
                 if(porcentajes_obstaculos < 0 || porcentajes_obstaculos > 100)
                 {
@@ -324,7 +328,8 @@ int main(void)
                     o.first = rand() % filas; // caso random first
                     o.second = rand() % filas; // caso random second
                 }
-                while (o.first <= 0 || o.second <= 0 || o.first >= (filas - 1) || o.second >= (columnas - 1) || o == v || o == d);
+                while (o.first <= 0 || o.second <= 0 || o.first >= (filas - 1) 
+                || o.second >= (columnas - 1) || o == v || o == d);
                     
                 mapa.rellenarManual(o.first, o.second, '#');
             }
@@ -352,9 +357,9 @@ int main(void)
         cout << endl <<"\E[94m1.-Distancia de \E[94m\E[97mManhattan.\E[0m" << endl <<"\E[94m2.-Distancia de \E[94m\E[97mEuclidean.\E[0m" << endl;
         cout << "\E[94m3.-Ambas\E[94m" << endl << endl <<"\E[92mIndique con un valor numérico la \E[97mfunción heurística\E[0m \E[92mque desea emplear \e[95m(1|2|3): \E[97m";
     }
-    while ((casosInt(heuristica)) && (heuristica == 1 || heuristica == 2 || heuristica == 3));
+    while ((esValido(heuristica)) && (heuristica == 1 || heuristica == 2 || heuristica == 3));
 
-    // system("clear");
+    system("clear");
 
     mapa.write(cout);   // Al final, se imprime por pantalla el contenido del mapa.    
 
@@ -382,6 +387,10 @@ int main(void)
     else
         return 1;
 
+
+    /**
+     * GENERACIÓN DE MAPAS ALEATORIOS
+     **/
 
     // pair<int, int> fichero;
     // int iteracion = 1;

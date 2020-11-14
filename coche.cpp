@@ -244,30 +244,21 @@ bool Coche_t::aStar(Mapa_t& mapa, bool heur)
     while(!openSet.empty())
     {
         // recorrer el openset para decidir que celda es mejor (tiene menor coste)
-        // cout << "Contenido del openSet" << endl;
 
         pos = 0;
 
         for(int i = 0; i < openSet.size(); i++)
         {
-            // cout << '(' << openSet[i].first << ", " << openSet[i].second << ')' << " | ";
             if(mapa.getCeldaPos(openSet[i]).getF() < mapa.getCeldaPos(openSet[pos]).getF())
             {
                 pos = i;
             }
         }
-        // cout << endl;
-        // getchar();
 
         elegido = openSet[pos];
-        // cout << "Elegimos: (" << elegido.first << ", " << elegido.second << ')' << endl;
-        // getchar();
-        // mapa.getCeldaPos(elegido).setValor('%');
         
         if(elegido == mapa.getDestino())
         {
-            // mapa.write(cout);
-            // cout << "El elegido es el destino." << endl;
             // Encontramos el camino
             terminado = true;
 
@@ -278,13 +269,10 @@ bool Coche_t::aStar(Mapa_t& mapa, bool heur)
 
             while(mapa.getCeldaPos(elegido).getPadre() != posicion_)
             {
-                // cout << "El padre es: (" << mapa.getCeldaPos(elegido).getPadre().first << ", " << mapa.getCeldaPos(elegido).getPadre().second << ')' << endl;
                 aux = mapa.getCeldaPos(elegido).getPadre();
                 mapa.getCeldaPos(aux).setValor('&');
                 setAppendCamino(aux);
                 elegido = aux;
-                // cout << "Bucle" << endl;
-                // getchar();
             }
             mapa.getCeldaPos(posicion_).setValor('&');
             setAppendCamino(posicion_);
@@ -341,7 +329,6 @@ bool Coche_t::aStar(Mapa_t& mapa, bool heur)
     {
         // No hay un camino al destino
         terminado = true;
-        // cout << "El elegido es el destino." << endl;
         cout << endl;
         return 1;
     }

@@ -151,7 +151,6 @@ void Mapa_t::rellenarMovimientos(int i, int j)              // Comprueba los 4 p
         dummy.first = i;
         dummy.second = j - 1;
         aux.push_back(dummy);                               // Se añade la celda vecina visitable
-        //cout << "Izquierda" << endl;
     }
 
     if(mapa_[getMapaPos((i - 1), j)].getValor() != '#')     // Comprueba que el valor a la arriba de la casilla (i,j) no sea ni un // obstáculo ni un borde
@@ -159,7 +158,6 @@ void Mapa_t::rellenarMovimientos(int i, int j)              // Comprueba los 4 p
         dummy.first = i - 1;
         dummy.second = j;  
         aux.push_back(dummy);                               // Se añade la celda vecina visitable
-        //cout << "Arriba" << endl;
     }
 
     if(mapa_[getMapaPos(i, (j + 1))].getValor() != '#')     // Comprueba que el valor a la derecha de la casilla (i,j) no sea ni un // obstáculo ni un borde
@@ -167,7 +165,6 @@ void Mapa_t::rellenarMovimientos(int i, int j)              // Comprueba los 4 p
         dummy.first = i;
         dummy.second = j + 1;
         aux.push_back(dummy);                               // Se añade la celda vecina visitable
-        //cout << "Derecha" << endl;
     }
 
     if(mapa_[getMapaPos((i + 1), j)].getValor() != '#')     // Comprueba que el valor a la abajo de la casilla (i,j) no sea ni un // obstáculo ni un borde
@@ -175,7 +172,6 @@ void Mapa_t::rellenarMovimientos(int i, int j)              // Comprueba los 4 p
         dummy.first = i + 1;
         dummy.second = j;
         aux.push_back(dummy);                               // Se añade la celda vecina visitable
-        //cout << "Abajo" << endl;
     }
     
     mapa_[getMapaPos(i, j)].setMovimientos(aux);            // Se pasa el vector a la celda para que actualice los movimientos posibles

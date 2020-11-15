@@ -1,6 +1,6 @@
 #include "celda.hpp"
 
-Celda_t::Celda_t():     // Constructor por defecto
+Celda_t::Celda_t():     // Constructor por defecto.
     valor_('\0'),
     padre_(),
     movimientos_(),
@@ -9,57 +9,57 @@ Celda_t::Celda_t():     // Constructor por defecto
     valorH_()
     {}
 
-Celda_t::~Celda_t(void) //Destructor
+Celda_t::~Celda_t(void) //Destructor.
 {
     destroyCelda();
 }
 
-void Celda_t::destroyCelda(void)    // Se encarga de vaciar el contenido de los atributos, hay que hacerlo para el vector de mmovimientos
+void Celda_t::destroyCelda(void)    // Se encarga de vaciar el contenido de los atributos, hay que hacerlo para el vector de mmovimientos.
 {
     setValor('\0');
 }
 
-char Celda_t::getValor(void)    // Devuelve el símbolo de la celda
+char Celda_t::getValor(void)    // Devuelve el símbolo de la celda.
 {
     return valor_;
 }
 
-vector<pair<int, int>> Celda_t::getMovimientos(void)   // Devuelve el vector de movimientos
+vector<pair<int, int>> Celda_t::getMovimientos(void)   // Devuelve el vector de movimientos.
 {
     return movimientos_;
 }
 
-pair<int, int> Celda_t::getMovimiento(int i)   // Devuelve un movimiento, según el valor de i sea 0, 1, 2 o 3
+pair<int, int> Celda_t::getMovimiento(int i)   // Devuelve un movimiento, según el valor de i sea 0, 1, 2 o 3.
 {
     return movimientos_[i];
 }
 
-pair<int, int> Celda_t::getPadre(void)
+pair<int, int> Celda_t::getPadre(void)  // Devuelve la posición de la celda "padre".
 {
     return padre_;
 }
 
-int Celda_t::getF(void)
+int Celda_t::getF(void)    // Devuelve el valor total acumulado.
 {
     return valorF_;
 }
 
-int Celda_t::getG(void)
+int Celda_t::getG(void)     // Devuelve el valor del movimiento  .
 {
     return valorG_;
 }
 
-int Celda_t::getH(void)
+int Celda_t::getH(void)     // Devuelve el valor heurístico del movimiento.
 {
     return valorH_;
 }
 
-void Celda_t::setValor(char valor)  // Set del símbolo de la celda
+void Celda_t::setValor(char valor)  // Set del símbolo de la celda.
 {
     valor_ = valor;
 }
 
-void Celda_t::setMovimientos(vector<pair<int, int>> movimientos)   // Set del vector de movimientos de la celda
+void Celda_t::setMovimientos(vector<pair<int, int>> movimientos)   // Set del vector de movimientos de la celda.
 {
     movimientos_ = movimientos;
 }
@@ -90,14 +90,14 @@ void Celda_t::setH(int h)
     valorH_ = h;    
 }
 
-void Celda_t::resetCost(void)
+void Celda_t::resetCost(void) // Método para resetear los costes de las celdas.
 {
     setG(0);
     setH(0);
     setF();
 }
 
-ostream& Celda_t::write(ostream& os)    // Método para imprimir por pantalla la celda
+ostream& Celda_t::write(ostream& os)    // Método para imprimir por pantalla la celda.
 {
     if (valor_ == '%')          // amarillo
     {

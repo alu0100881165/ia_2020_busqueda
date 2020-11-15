@@ -18,7 +18,6 @@
 #include "coche.hpp"
 
 #include <string>
-#include <cstdlib>
 #include <chrono>
 
 bool esValido(int& valor)   // Cuando haces una entrada revisa la entrada
@@ -34,15 +33,15 @@ bool esValido(int& valor)   // Cuando haces una entrada revisa la entrada
     return 0;
 }
 
-pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
+pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)      // Método para introducir el vehículo en el mapa.
 {
     pair<int, int> v;
     cout << endl << "\E[93mDETERMINACIÓN DEL VEHÍCULO.\E[93m"<<endl;
         do
         {
-            cout << endl << "\E[94m- Introduzca la posición \E[97mi\E[94m del vehículo: \E[97m";      // filas -> naranja
+            cout << endl << "\E[94m- Introduzca la posición \E[97mi\E[94m del vehículo: \E[97m";
             cin >> v.first;
-            cout << "\E[94m- Introduzca la posición \E[97mj\E[94m del vehículo: \E[97m";      // columnas -> naranja
+            cout << "\E[94m- Introduzca la posición \E[97mj\E[94m del vehículo: \E[97m";
             cin >> v.second;
 
             if(v.first > 0 && v.second > 0 && v.first < (filas - 1) && v.second < (columnas - 1))           // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -59,17 +58,17 @@ pair<int, int> crearVehiculo(Mapa_t mapa, int filas, int columnas)
     return v;
 }
 
-pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int> v)
+pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int> v)     // Método para introducir el destino en el mapa.
 {
     pair<int, int> d;
 
     cout << endl << "\E[93mDETERMINACIÓN DEL DESTINO.\E[93m" << endl;
         do
         {
-            cout << endl << "\E[94m- Introduzca la posición \E[97mi\E[94m del destino: \E[97m";      // filas -> naranja
+            cout << endl << "\E[94m- Introduzca la posición \E[97mi\E[94m del destino: \E[97m";
             cin >> d.first;
             
-            cout <<  "\E[94m- Introduzca la posición \E[97mj\E[94m del destino: \E[97m";      // columnas -> naranja
+            cout <<  "\E[94m- Introduzca la posición \E[97mj\E[94m del destino: \E[97m";
             cin >> d.second;
 
             if(d.first > 0 && d.second > 0 && d.first < (filas - 1) && d.second < (columnas - 1) && d != v)         // Comprueba si la posición seleccionada no está en ninguna pared, el orden:
@@ -81,7 +80,7 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
                 cout << endl << "\E[31m--> Error de posición: Introduzca el destino en una posición válida. \E[31m" << endl;
             }
         } 
-        while (d.first <= 0 || d.second <= 0 || d.first >= (filas - 1) || d.second >= (columnas - 1) || d == v);    // if(-1)
+        while (d.first <= 0 || d.second <= 0 || d.first >= (filas - 1) || d.second >= (columnas - 1) || d == v);
 
     return d;
 }
@@ -92,15 +91,15 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
 
 // void crearAleatorio(Mapa_t& mapa, Coche_t& coche)
 // {
-//     int tam = ((mapa.getN() * mapa.getM()) * 2) / 100;      // Ejemplo: 10x10 10% tam = 10
+//     // int tam = ((mapa.getN() * mapa.getM()) * 2) / 100;
 
 //     srand(time(NULL)); // Caso random = NULL
 
 //     pair<int, int> v = {1, 1};
 //     pair<int, int > d, o;
-//     int contador = 0; 
+//     int contador = 0;
 
-//     for(int i = 0; i < tam; i++)
+//     for(int i = 0; i < 2; i++)
 //     {   
 //         do
 //         {
@@ -125,7 +124,7 @@ pair<int, int> crearDestino(Mapa_t mapa, int filas, int columnas, pair<int, int>
 //     mapa.rellenarCoche(v, d);
 // }
 
-bool algoritmoBusqueda(Mapa_t& mapa, Coche_t& coche, int heur)
+bool algoritmoBusqueda(Mapa_t& mapa, Coche_t& coche, int heur)      // Ejecución del algoritmo de búsqueda con la función heurística especificada.
 {
     bool heuristica = false;
     string heuristicaString;
@@ -143,21 +142,20 @@ bool algoritmoBusqueda(Mapa_t& mapa, Coche_t& coche, int heur)
 
     cout << "\E[96m\e[7mA* con heurística " << heuristicaString << ".\E[96m\e[0m\e[0m" << endl << endl;
 
-    auto t1 = chrono::high_resolution_clock::now();
+    auto t1 = chrono::high_resolution_clock::now();     // Antes de ejecutar el algoritmo, tomamos el instante de inicio.
     
     if(coche.aStar(mapa, heuristica))
     {
-        cout << "\E[95mExiste el camino.\E[95m" << endl;
+        auto t2 = chrono::high_resolution_clock::now(); // Después de ejecutar el algoritmo de manera satisfactoria,
+                                                        // tomamos el instante de finalización.
 
-        auto t2 = chrono::high_resolution_clock::now();
+        cout << "\E[95mExiste el camino.\E[95m" << endl;        
 
-        mapa.getCeldaPos(coche.getPosicion()).setValor('&');
+        mapa.write(cout);
 
-        // mapa.write(cout);
+        auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();     // Calculamos la duración total de ejecución del algoritmo.
 
-        auto duration = chrono::duration_cast<chrono::milliseconds>( t2 - t1 ).count();
-
-        mapa.resetMapa(coche.getPosicion());
+        mapa.resetMapa(coche.getPosicion());       // Preparamos el mapa por si fuera necesario ejecutar otro algoritmo heurístico.
 
         cout << "\E[97m--> La función " << "\E[94m" << heuristicaString << "\E[97m toma: " << "\E[93m" << duration << " milisegundos.\E[93m" << endl;
         cout << "\E[97m--> El tamaño del camino seguido es de: " << "\E[93m" << coche.getCamino().size() <<".\E[93m" << endl;
@@ -202,7 +200,7 @@ int main(void)
     {
         do
         { 
-            cout << endl << "\E[93m- Introduzca el nombre del fichero: \E[97m";        // filas -> naranja 
+            cout << endl << "\E[93m- Introduzca el nombre del fichero: \E[97m";
             cin >> nombreFichero;
 
             ficheroEntrada.open(nombreFichero.c_str(), fstream::in);    // Se abre el fichero de entrada
@@ -227,7 +225,7 @@ int main(void)
     }
     else    // Opción manual
     {      
-        cout << endl << "\E[93mDIMENSIONES DEL TABLERO.\E[93m" << endl;       // cian negrita    
+        cout << endl << "\E[93mDIMENSIONES DEL TABLERO.\E[93m" << endl;
 
         do
         {
@@ -286,7 +284,7 @@ int main(void)
                     cout << endl << "\E[31m--> Error de posición: Introduzca el obstáculo en una posición válida. \E[31m" << endl;
                 }
             } 
-            while ((o.first != 0) && (o.second != 0));                                                                      // Si ambas posiciones del pair 'o' son 0, se sale del bucle.
+            while ((o.first != 0) && (o.second != 0));              // Si ambas posiciones del pair 'o' son 0, se sale del bucle.
                 
             for(int i = 1; i < (filas - 1); i++)       
             {
@@ -408,16 +406,11 @@ int main(void)
     //             if(mapa.getMapa()[mapa.getMapaPos(i, j)].getValor() == '#')
     //                 mapa.getCeldaPos(fichero).setValor('.');
     //         }
-    //     }
-    //     cout << "Después reset" << endl;
-        
-    //     crearAleatorio(mapa, coche);
-    //     cout << "Despues alatorio coche y destino" << endl;
+    //     }        
 
-    //     mapa.resetMapa(coche.getPosicion());
-    //     cout << "Después resetmapa" << endl;
-        
-        
+    //     crearAleatorio(mapa, coche);
+
+    //     mapa.resetMapa(coche.getPosicion());        
 
     //     int tam = ((filas * columnas) * porcentajes_obstaculos) / 100;      // Ejemplo: 10x10 10% tam = 10
 
@@ -434,7 +427,6 @@ int main(void)
                     
     //         mapa.rellenarManual(o.first, o.second, '#');
     //     }
-    //     cout << "Después obstáculos" << endl;
 
     //     for(int i = 1; i < (filas - 1); i++)       
     //     {
@@ -446,8 +438,6 @@ int main(void)
     //             }
     //         }
     //     }
-
-    //     cout << "Antes del A*" << endl;
 
     //     if(coche.aStar(mapa, 1))
     //     {

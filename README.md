@@ -1,17 +1,23 @@
-# ia_2020_busqueda
+# Práctica de búsqueda
+## Algoritmo A*
 
-Práctica de la asignatura de Inteligencia Artificial, en la que se utiliza un algoritmo de búsqueda que permita a un "coche" autónomo llegar a su destino.
+En este fichero se exponen las instrucciones de ejecución del programa realizado.
 
-Primero, el programa pide por pantalla si desea leer los datos a través de un fichero(1) o no(0).
+###Compilación
+Para compilar el programa, basta con situarnos en la carpeta del proyecto y ejecutar el siguiente comando:
 
-  - En el caso de que se seleccione 1, se leerá a través de un fichero creado los valores para la 
-creación de la matriz, recogiendo por orden: filas, columnas, posición coche, posición destino y
-obstáculos. 
-  - En caso contrario, se pide por pantalla las filas y las columnas(>=4). Deberá elegir la 
-introducción de los obstáculos de manera manual(0) o aleatoria(1). En ambas elecciones, se pedirá 
-que introduzca la posición del coche y del destino(no pueden coincidir ni con una pared ni entre 
-ellos).
-  - Ahora toca con la insercción de los obstáculos. Si se seleccionó la opción manual, deberá 
-  introducir la posición que quiera del obstáculo(no puede ser una pared, ni la posición del coche
-  o del destino, ni de otro obstáculo ya introducido). En caso del aleatorio, se introducirá un
-  porcentaje(0-100) de aparición de los obtáculos en nuestra matriz.
+> make
+
+Esto nos creará varios ficheros, pero el más importante es el que se llama
+
+>cocheAutonomo
+
+###Ejecución del programa
+Para ejecutar el programa escribimos en la terminal:
+>./cocheAutonomo
+
+Una vez iniciada la ejecución del mismo, bastará con seguir el menú, indicando las preferencias que tengamos (leer desde fichero, introducir los obstáculos manualamente, etc.).
+Cuando se acaben de introducir todos los datos, se mostrará por pantalla el mapa generado, y el resultado de utilizar el algoritmo A* en él, con la o las funciones heurísticas que deseemos.
+
+Por útlimo, se han incluido varios ficheros para poder probar el programa. A partir del mapa de 100x100, recomendamos que se haga algo de **Zoom Out**, ya que el output del programa es bastante grande.
+El mapa de 400x400 que se ha incluido se puede utilizar en el programa, pero se recomienda realizar muchísimo Zoom Out, o comentar dentro del código aquellas líneas que pintan el mapa en la términal (mapa.write(cout);), ya que el output es inmenso, y no hemos conseguido que se visualizara correctamente.
